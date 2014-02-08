@@ -16,6 +16,9 @@ for line in sys.stdin:
 
     # break up line into manageable chunks
     split_line = line.split()
+    if len(split_line) <= 1:
+        sys.stdout.write(str(int(split_line[0]) + 1) + "\n")
+        continue
     attributes = split_line[1].split(',')
 
     # save elements from strings
@@ -30,4 +33,6 @@ for line in sys.stdin:
                       'children':children}
 
     # Original placeholder code:
-    sys.stdout.write(line)
+    if rank_prev == 0.0:
+        sys.stdout.write("0\n")
+
