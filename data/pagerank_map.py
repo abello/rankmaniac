@@ -29,7 +29,5 @@ for line in sys.stdin:
                       'rank_prev':rank_prev,
                       'children':children}
 
-
-# Original placeholder code:
-#for line in sys.stdin:
-#    sys.stdout.write(line)
+	# Original placeholder code:
+    sys.stdout.write(line)
