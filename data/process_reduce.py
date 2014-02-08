@@ -10,10 +10,12 @@ from rankmaniac import Rankmaniac
 # This program simply represents the identity function.
 #
 
-for i in range(20):
-	sys.stdout.write('FinalRank:1\t' + str(i) + '\n')
-
-
-#for line in sys.stdin:   
-#    sys.stdout.write(line)
+i = 0
+for line in sys.stdin:   
+    if int(line) == 2:
+        for i in range(20):
+            sys.stdout.write('FinalRank:1\t' + str(i) + '\n')
+        break
+    else:
+        sys.stdout.write(str(int(line) + 1) + '\n')
 
