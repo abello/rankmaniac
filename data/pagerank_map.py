@@ -30,5 +30,6 @@ for line in sys.stdin:
                       'children':children}
 
     # Original placeholder code:
-    sys.stdout.write(line)
+#     sys.stdout.write(line)
+    print "Test"
 
