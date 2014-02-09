@@ -7,6 +7,5 @@ import sys
 #
 
 for line in sys.stdin:
-#     sys.stdout.write(line)
-    print "foo"
+    sys.stdout.write(line)
 
