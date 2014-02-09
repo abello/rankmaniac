@@ -24,14 +24,27 @@ for line in sys.stdin:
 
     # save elements from strings
     # TODO: Is a 0 initial pagerank optimal?
-    parent = int(split_line[0][7:])
-    rank_curr = float(attributes[0])
-    rank_prev = float(attributes[1])
-    children = np.array([int(x) for x in attributes[2:]])
+    
+    # If we're at first iteration
+    if line[0] == 'N':
+        iteration = 0
+        parent = int(split_line[0][7:])
+        rank_curr = float(attributes[0])
+        rank_prev = float(attributes[1])
+        children = np.array([int(x) for x in attributes[2:]])
+    else:
+        # TODO: Implement this
+        iteration = 99999999999
+        parent = int(split_line[0][7:])
+        rank_curr = float(attributes[0])
+        rank_prev = float(attributes[1])
+        children = np.array([int(x) for x in attributes[2:]])
+        
 
     # create entry in result dict with attributes of node 'parent'
     # TODO: Use a fixed-size hashtable instead of dict for memory optimization
-    result[parent] = {'rank_curr':rank_curr,
+    result[parent] = {'iteration':iteration,
+                      'rank_curr':rank_curr,
                       'rank_prev':rank_prev,
                       'children':children}
 
