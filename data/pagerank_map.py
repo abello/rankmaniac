@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import numpy as np
 
 #
 # This program simply represents the identity function.
@@ -9,6 +10,9 @@ import sys
 result = {}
 for line in sys.stdin:
     # each line is of the format:  NodeId:0\t1.0,0.0,83,212,302...
+    # Or, if it's a subsequent iteration (say iteration 2):
+    # each line will be of the format 2NodeId:0\t1.0,0.0,83,212,302...
+
     # 0 is current node id
     # 1.0 is current pagerank
     # 0.0 is previous page
@@ -19,17 +23,21 @@ for line in sys.stdin:
     attributes = split_line[1].split(',')
 
     # save elements from strings
+    # TODO: Is a 0 initial pagerank optimal?
     parent = int(split_line[0][7:])
     rank_curr = float(attributes[0])
     rank_prev = float(attributes[1])
-    children = [int(x) for x in attributes[2:]]
+    children = np.array([int(x) for x in attributes[2:]])
 
     # create entry in result dict with attributes of node 'parent'
+    # TODO: Use a fixed-size hashtable instead of dict for memory optimization
     result[parent] = {'rank_curr':rank_curr,
                       'rank_prev':rank_prev,
                       'children':children}
 
+
+    
+
     # Original placeholder code:
-#     sys.stdout.write(line)
-    print "Test"
+    sys.stdout.write(line)
 
