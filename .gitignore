@@ -2,3 +2,5 @@ boto/*
 *.pyc
 output.txt
 input.txt
+boto/*
+boto/
