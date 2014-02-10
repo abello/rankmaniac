@@ -1,9 +1,11 @@
 import sys
 import numpy as np
+import cPickle as pickle
 
 def firstIteration():
     # list of the nodes in the system to pass to reduce
     nodes = set()
+    G = {}
     for line in sys.stdin:
         # each line is of the format:  NodeId:0\t1.0,0.0,83,212,302...
         # Or, if it's a subsequent iteration (say iteration 2):
@@ -29,6 +31,7 @@ def firstIteration():
         
         # add the node to our list
         nodes.add(node)
+
             
         # what we want to emit to collector is information of node, and
         # contribution this node provides to its pagerank
@@ -36,18 +39,16 @@ def firstIteration():
         # of this node is its current pagerank divided by its outDegree
         # This can be seen by looking at the pi' = pi*G rule of iteration
         # pagerank
+        contribution = rank_curr / len(outLinks)
         for link in outLinks:
-            contribution = rank_curr / len(outLinks)
-            result = 'c' + str(iteration) + ':' + str(link) + ':' + str(contribution) + '\n'
+            # (child, contribution) pairs start with a '+'
+            result = '+' + pickle.dumps(np.array(iteration), link, contribution) 
             sys.stdout.write(result)
 
-        sys.stdout.write(line)
 
-    # output the nodes in this
-    nodeString = 'n'
-    for n in nodes:
-        nodeString += (str(n) + ',')
-    sys.stdout.write(nodeString + '\n')
+        # The adjlist stuff starts with _
+        adj = '_' + pickle.dumps(np.array(iteration, node, rank_curr, rank_prev, outLinks))
+        sys.stdout.write(adj)
 
 
 def midIteration():
