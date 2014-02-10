@@ -3,8 +3,6 @@
 import sys
 import numpy as np
 
-ALPHA = 0.8
-
 #
 # This program simply represents the identity function.
 #
@@ -22,17 +20,7 @@ for line in sys.stdin:
     # 1.5 is the contribution of pagerank
     # we will get a list of these
 
-    if line[0] == 'n':
-        # this is the case that we are reading the total list of nodes
-        # use this to fill out our dictionary
-        data = line[1:]
-
-        nodes = data.split(',')
-
-        for n in nodes[:-1]:
-            if int(n) not in result.keys():
-                result[int(n)] = 0
-    elif line[0] == 'c':
+    if line[0] == 'c':
         split_line = line[1:].split(':')
 
         iteration = int(split_line[0])
@@ -47,6 +35,5 @@ for line in sys.stdin:
          sys.stdout.write(line)
     
 for r in result.keys():
-    result[r] = ALPHA * result[r] + (1 - ALPHA) / len(result.keys())
     sys.stdout.write('p' + str(iteration) + ':' + str(r) + ':' + str(result[r]) + '\n')
     
