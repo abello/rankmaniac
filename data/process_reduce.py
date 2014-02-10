@@ -16,23 +16,26 @@ def main():
     iteration = 0
 
     for line in sys.stdin:
-        line = line.decode('string-escape')
         if line[0] == '_':
             # this is the case that we are reading the total list of nodes
             # use this to fill out ourdictionary
 
             # adj = '_' + pickle.dumps(np.array(iteration, node, rank_curr, rank_prev, outLinks))
+            print line
+
+            line = line.decode('string-escape')
             unpickled = pickle.loads(line[1:])
             iteration = unpickled[0]
 
             # if iteration is our max iteration, we just stop, no need to process this
-            if iteraton == max_iter:
+            if iteration == max_iter:
                 continue
 
             node = unpickled[1]
             outLinks = unpickled[4]
-            adjacency[node] = np.array([iteration + 1, node, outLinks])
+            adjacency[node] = (iteration + 1, node, outLinks)
         elif line[0] == '+':
+            line = line.decode('string-escape')
             info = pickle.loads(line[1:])
 
             iteration = info[0]
@@ -57,8 +60,9 @@ def main():
     else:
         for n in adjacency.keys():
             a = adjacency[n]
-            result = pickle.dumps(np.array([a[0], a[1], pageRanks[n], a[2]]))
-            out = out.encode('string-escape')
+            # TODO: There might be a keyerror in pageRanks[n]
+            result = pickle.dumps((a[0], a[1], pageRanks[n], a[2]))
+            result = result.encode('string-escape')
             print result
 
 
