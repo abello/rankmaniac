@@ -42,7 +42,7 @@ def firstIteration():
         outLinks = np.array([int(x) for x in attributes[2:]])
 
         # store the rank node gives to 1 of its children (if it has children)
-        contrib=0 if (len(outLinks)==0) else contrib=(rank_curr/len(outLinks))
+        contrib = (rank_curr/len(outLinks)) if len(outLinks) > 0 else 0
         
         for child in outLinks:
             # (child, contrib) pair lines start with a '+'
@@ -87,7 +87,7 @@ def midIteration():
         outLinks  = info[4]
 
         # store the rank node gives to 1 of its children (if it has children)
-        contrib=0 if (len(outLinks)==0) else contrib=(rank_curr/len(outLinks))
+        contrib = (rank_curr/len(outLinks)) if len(outLinks) > 0 else 0
 
         for link in outLinks:
             # (child, contrib) pair lines start with a '+'
