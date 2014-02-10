@@ -4,7 +4,7 @@ import sys
 import heapq as h
 import numpy as np
 
-max_iter = 10
+max_iter = 50
 
 def midIteration():
     nodeData = {}
@@ -45,7 +45,7 @@ def lastIteration():
     for i in range(20):
         try:
             (pr, n) = h.heappop(result)
-            finalRanks += ('FinalRank:' + str(pr) + '\t' + str(n) + '\n')
+            finalRanks += ('FinalRank:' + str(-pr) + '\t' + str(n) + '\n')
         except:
 #TODO
             print 'fail'
