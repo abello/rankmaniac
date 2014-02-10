@@ -26,9 +26,6 @@ for line in sys.stdin:
         unpickled = pickle.loads(line[1:])
         nodes.add(unpickled[1])
 
-        for n in unpickled[4]:
-            nodes.add(n)
-
     # TODO: Change this to else eventually
     elif line[0] == '+':
         line = line.decode('string-escape')
@@ -50,7 +47,9 @@ for n in nodes:
 
 numNodes = len(result.keys())
 for r in result.keys():
-    result[r] = ALPHA * result[r] + (1 - ALPHA) / numNodes
+    #result[r] = ALPHA * result[r] + (1 - ALPHA) / numNodes
+    result[r] = ALPHA * result[r] + (1 - ALPHA)
     out = '+' + pickle.dumps([iteration, r, result[r]])
     out = out.encode('string-escape')
     print out
+
