@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import cPickle as pickle
 
 #
 # This program simply represents the identity function.
@@ -9,44 +10,46 @@ import sys
 ALPHA = 0.8
 
 result = {}
-nodeIds = []
+nodes = set()
 iteration = 0
 
 for line in sys.stdin:
-    if line[0] == 'n':
+    if line[0] == '_':
         # this is the case that we are reading the total list of nodes
         # use this to fill out ourdictionary
-        data = line[1:]
 
-        nodes = data.split(',')
+        # Emit adjlist
+        sys.stdout.write(line)
 
-        for n in nodes[:-1]:
-            nodeIds.append(int(n))
-    elif line[0] == 'p':
-        # should be formatted as 'p3:0:5.0' where
-        # 3 is the iteration
-        # 0 is the node
-        # 5.0 is total contribution from alpha*P
+        # adj = '_' + pickle.dumps(np.array(iteration, node, rank_curr, rank_prev, outLinks))
+        unpickled = pickle.loads(line[1:])
+        nodes.add(unpickled[1])
 
-        split_line = line[1:].split(':')
+        for n in unpickled[4]
+            nodes.add(n)
 
-        iteration = int(split_line[0])
-        node = int(split_line[1])
-        contribution = float(split_line[2])
+    # TODO: Change this to else eventually
+    elif line[0] == '+':
+        info = pickle.loads(line[1:])
+
+        iteration = info[0]
+        node = info[1]
+        contribution = info[2]
 
         if node in result.keys():
             result[node] += contribution
         else:
             result[node] = contribution
-    else:
-        sys.stdout.write(line)
 
-for n in nodeIds:
-    if n not in result.keys():
+resultKeys = set(result.keys)
+for n in nodes:
+    if n not in resultKeys:
         result[n] = 0
 
 numNodes = len(result.keys())
-for r in result.keys():
+for r in resultKeys:
     result[r] = ALPHA * result[r] + (1 - ALPHA) / numNodes
-    sys.stdout.write('p' + str(iteration) + ':' + str(r) + ':' + str(result[r]) + '\n')
+    out = '+' + pickle.dumps(iteration, r, result[r])
+    sys.stdout.write(out)
+#     sys.stdout.write('p' + str(iteration) + ':' + str(r) + ':' + str(result[r]) + '\n')
 
