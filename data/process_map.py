@@ -19,7 +19,7 @@ for line in sys.stdin:
         # use this to fill out ourdictionary
 
         # Emit adjlist
-        print line
+        sys.stdout.write(line)
 
         # adj = '_' + pickle.dumps(np.array(iteration, node, rank_curr, rank_prev, outLinks))
         line = line.decode('string-escape')
@@ -43,16 +43,14 @@ for line in sys.stdin:
         else:
             result[node] = contribution
 
-resultKeys = result.keys()
+
 for n in nodes:
-    if n not in resultKeys:
+    if n not in result.keys():
         result[n] = 0
 
 numNodes = len(result.keys())
-for r in resultKeys:
+for r in result.keys():
     result[r] = ALPHA * result[r] + (1 - ALPHA) / numNodes
     out = '+' + pickle.dumps([iteration, r, result[r]])
     out = out.encode('string-escape')
     print out
-#     sys.stdout.write('p' + str(iteration) + ':' + str(r) + ':' + str(result[r]) + '\n')
-

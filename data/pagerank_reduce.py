@@ -33,7 +33,7 @@ for line in sys.stdin:
 #         for n in nodes[:-1]:
 #             if int(n) not in result.keys():
 #                 result[int(n)] = 0
-        print line
+        sys.stdout.write(line)
 
     # If it starts with +, it's contribs
     # TODO: Make this an else while we show that this works
