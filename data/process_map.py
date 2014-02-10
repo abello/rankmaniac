@@ -48,9 +48,7 @@ for n in nodes:
 numNodes = len(result.keys())
 sumRanks = sum(result.values())
 for r in result.keys():
-    #result[r] = ALPHA * result[r] + (1 - ALPHA) / numNodes
-    #result[r] = ALPHA * result[r] + (1 - ALPHA)
-    result[r] = ALPHA * result[r] + (1 - ALPHA) / numNodes * sumRanks
+    result[r] = ALPHA * result[r] + (1 - ALPHA) / numNodes
     out = '+' + pickle.dumps([iteration, r, result[r]])
     out = out.encode('string-escape')
     print out
