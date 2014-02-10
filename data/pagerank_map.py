@@ -66,8 +66,8 @@ def midIteration():
     # Expected format of line:
     # np.array(iteration, node, rank_curr, rank_prev, np.array(outLinks))
     for line in sys.stdin:
-        line = line.decode('string-escape')
-        info = pickle.loads(line)
+        decoded = line.decode('string-escape')
+        info = pickle.loads(decoded)
 
         iteration = info[0]
         node = info[1]
@@ -84,17 +84,24 @@ def midIteration():
         # of this node is its current pagerank divided by its outDegree
         # This can be seen by looking at the pi' = pi*G rule of iteration
         # pagerank
-        for link in outLinks:
-            contribution = rank_curr / len(outLinks)
-            result = '+' + pickle.dumps(np.array([iteration, link, contribution]))
+        if len(outLinks) == 0:
+            result = '+' + pickle.dumps(np.array([iteration, node, rank_curr]))
             result = result.encode('string-escape')
             print result
+        else:
+            contribution = rank_curr / len(outLinks)
+            
+            for link in outLinks:
+                # (child, contribution) pairs start with a '+'
+                result = '+' + pickle.dumps(np.array([iteration, link, contribution]))
+                result = result.encode('string-escape')
+                print result
 
         # The adjlist stuff starts with _
 #        adj = '_' + pickle.dumps((iteration, node, rank_curr, rank_prev, outLinks))
 #        adj = adj.encode('string-escape')
 #        print adj
-        adj = '_' + line
+        adj = '_' + line.decode('string-escape')
         adj = adj.encode('string-escape')
         sys.stdout.write(adj)
 
