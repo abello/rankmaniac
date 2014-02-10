@@ -42,7 +42,7 @@ def firstIteration():
         contribution = rank_curr / len(outLinks)
         for link in outLinks:
             # (child, contribution) pairs start with a '+'
-            result = '+' + pickle.dumps(np.array(iteration), link, contribution) 
+            result = '+' + pickle.dumps(np.array(iteration, link, contribution))
             sys.stdout.write(result)
 
 
