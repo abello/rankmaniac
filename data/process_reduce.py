@@ -4,7 +4,7 @@ import sys
 import heapq as h
 import numpy as np
 import cPickle as pickle
-max_iter = 50
+max_iter = 10
 
 def main():
     adjacency = {}
@@ -21,7 +21,6 @@ def main():
             # use this to fill out ourdictionary
 
             # adj = '_' + pickle.dumps(np.array(iteration, node, rank_curr, rank_prev, outLinks))
-            print line
 
             line = line.decode('string-escape')
             unpickled = pickle.loads(line[1:])
@@ -32,8 +31,9 @@ def main():
                 continue
 
             node = unpickled[1]
+            rank_curr = unpickled[2]
             outLinks = unpickled[4]
-            adjacency[node] = (iteration + 1, node, outLinks)
+            adjacency[node] = (iteration + 1, node, rank_curr, outLinks)
         elif line[0] == '+':
             line = line.decode('string-escape')
             info = pickle.loads(line[1:])
@@ -53,7 +53,7 @@ def main():
         for i in range(20):
             try:
                 (pr, n) = h.heappop(result)
-                finalRanks += ('FinalRank:' + str(-pr) + '\t' + str(n) + '\n')
+                finalRanks += ('FinalRank:' + str(-pr) + '\t' + str(int(n))+ '\n')
             except Exception, e:
                 print e
         print finalRanks
@@ -61,7 +61,7 @@ def main():
         for n in adjacency.keys():
             a = adjacency[n]
             # TODO: There might be a keyerror in pageRanks[n]
-            result = pickle.dumps((a[0], a[1], pageRanks[n], a[2]))
+            result = pickle.dumps((a[0], a[1], pageRanks[n], a[2], a[3]))
             result = result.encode('string-escape')
             print result
 

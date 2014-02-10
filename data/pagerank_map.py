@@ -41,15 +41,17 @@ def firstIteration():
         # pagerank
 
         if len(outLinks) == 0:
-            contribution = 0
+            result = '+' + pickle.dumps(np.array([iteration, node, rank_curr]))
+            result = result.encode('string-escape')
+            print result
         else:
             contribution = rank_curr / len(outLinks)
             
-        for link in outLinks:
-            # (child, contribution) pairs start with a '+'
-            result = '+' + pickle.dumps(np.array([iteration, link, contribution]))
-            result = result.encode('string-escape')
-            print result
+            for link in outLinks:
+                # (child, contribution) pairs start with a '+'
+                result = '+' + pickle.dumps(np.array([iteration, link, contribution]))
+                result = result.encode('string-escape')
+                print result
 
 
         # The adjlist stuff starts with _
@@ -84,14 +86,17 @@ def midIteration():
         # pagerank
         for link in outLinks:
             contribution = rank_curr / len(outLinks)
-            result = '+' + pickle.dumps(np.array(iteration, link, contribution))
+            result = '+' + pickle.dumps(np.array([iteration, link, contribution]))
             result = result.encode('string-escape')
             print result
 
-    # The adjlist stuff starts with _
-    adj = '_' + pickle.dumps((iteration, node, rank_curr, rank_prev, outLinks))
-    adj = adj.encode('string-escape')
-    print adj
+        # The adjlist stuff starts with _
+#        adj = '_' + pickle.dumps((iteration, node, rank_curr, rank_prev, outLinks))
+#        adj = adj.encode('string-escape')
+#        print adj
+        adj = '_' + line
+        adj = adj.encode('string-escape')
+        sys.stdout.write(adj)
 
 
 
