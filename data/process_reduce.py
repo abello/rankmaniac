@@ -16,6 +16,7 @@ def main():
     iteration = 0
 
     for line in sys.stdin:
+        line = line.decode('string-escape')
         if line[0] == '_':
             # this is the case that we are reading the total list of nodes
             # use this to fill out ourdictionary
@@ -52,12 +53,13 @@ def main():
                 finalRanks += ('FinalRank:' + str(-pr) + '\t' + str(n) + '\n')
             except Exception, e:
                 print e
-        sys.stdout.write(finalRanks)
+        print finalRanks
     else:
         for n in adjacency.keys():
             a = adjacency[n]
             result = pickle.dumps(np.array([a[0], a[1], pageRanks[n], a[2]]))
-            sys.stdout.write(result)
+            out = out.encode('string-escape')
+            print result
 
 
 if __name__ == "__main__":

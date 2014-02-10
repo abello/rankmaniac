@@ -14,12 +14,13 @@ nodes = set()
 iteration = 0
 
 for line in sys.stdin:
+    line = line.decode('string-escape')
     if line[0] == '_':
         # this is the case that we are reading the total list of nodes
         # use this to fill out ourdictionary
 
         # Emit adjlist
-        sys.stdout.write(line)
+        print line
 
         # adj = '_' + pickle.dumps(np.array(iteration, node, rank_curr, rank_prev, outLinks))
         unpickled = pickle.loads(line[1:])
@@ -50,6 +51,7 @@ numNodes = len(result.keys())
 for r in resultKeys:
     result[r] = ALPHA * result[r] + (1 - ALPHA) / numNodes
     out = '+' + pickle.dumps(iteration, r, result[r])
-    sys.stdout.write(out)
+    out = out.encode('string-escape')
+    print out
 #     sys.stdout.write('p' + str(iteration) + ':' + str(r) + ':' + str(result[r]) + '\n')
 
