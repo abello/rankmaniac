@@ -3,6 +3,7 @@
 import sys
 import heapq as h
 import numpy as np
+import cPickle as pickle
 
 max_iter = 50
 
@@ -30,7 +31,7 @@ def main():
 
             node = unpickled[1]
             outLinks = unpickled[4]
-            adjacency[node] = np.array(iteration + 1, node, outLinks)
+            adjacency[node] = np.array([iteration + 1, node, outLinks])
         elif line[0] == '+':
             info = pickle.loads(line[1:])
 
@@ -56,7 +57,7 @@ def main():
     else:
         for n in adjacency.keys():
             a = adjacency[n]
-            result = pickle.dumps(np.array(a[0], a[1], pageRanks[n], a[2]))
+            result = pickle.dumps(np.array([a[0], a[1], pageRanks[n], a[2]]))
             sys.stdout.write(result)
 
 
