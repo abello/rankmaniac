@@ -35,8 +35,7 @@ for line in sys.stdin:
         contribution = float(split_line[2])
 
         if node in result.keys():
-            # ???
-            pass
+            result[node] += contribution
         else:
             result[node] = contribution
     else:
