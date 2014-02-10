@@ -20,31 +20,40 @@ for line in sys.stdin:
     # 1.5 is the contribution of pagerank
     # we will get a list of these
 
-    if line[0] == 'n':
+
+    # This is adj information, pass it along
+    if line[0] == '_':
         # this is the case that we are reading the total list of nodes
         # use this to fill out our dictionary
-        data = line[1:]
+#         data = line[1:]
+# 
+#         nodes = data.split(',')
+# 
+#         for n in nodes[:-1]:
+#             if int(n) not in result.keys():
+#                 result[int(n)] = 0
+        sys.stdout.write(line)
 
-        nodes = data.split(',')
+    # If it starts with +, it's contribs
+    # TODO: Make this an else while we show that this works
+    elif line[0] == '+':
+        # this is the case that we are reading the total list of nodes
+        info = pickle.loads(line[1:])
 
-        for n in nodes[:-1]:
-            if int(n) not in result.keys():
-                result[int(n)] = 0
-
-    elif line[0] == 'c':
-        split_line = line[1:].split(':')
-
-        iteration = int(split_line[0])
-        node = int(split_line[1])
-        contribution = float(split_line[2])
+        iteration = info[0]
+        node = info[1]
+        contribution = info[2]
 
         if node in result.keys():
             result[node] += contribution
         else:
             result[node] = contribution
-    else:
-         sys.stdout.write(line)
     
-for r in result.keys():
-    sys.stdout.write('p' + str(iteration) + ':' + str(r) + ':' + str(result[r]) + '\n')
+for node in result.keys():
+    out = '+' + pickle.dumps(np.array(iteration), node, result[node]) 
+    sys.stdout.write(out)
+#     sys.stdout.write('+' + str(iteration) + ':' + str(r) + ':' + str(result[r]) + '\n')
     
+
+
+
