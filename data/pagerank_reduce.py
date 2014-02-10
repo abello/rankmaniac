@@ -3,8 +3,6 @@
 import sys
 import numpy as np
 
-ALPHA = 0.8
-
 #
 # This program simply represents the identity function.
 #
@@ -48,6 +46,5 @@ for line in sys.stdin:
          sys.stdout.write(line)
     
 for r in result.keys():
-    result[r] = ALPHA * result[r] + (1 - ALPHA) / len(result.keys())
     sys.stdout.write('p' + str(iteration) + ':' + str(r) + ':' + str(result[r]) + '\n')
     
