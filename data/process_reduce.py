@@ -4,7 +4,7 @@ import sys
 import heapq as h
 import numpy as np
 import cPickle as pickle
-max_iter = 10
+max_iter = 30
 
 def main():
     adjacency = {}
@@ -56,7 +56,7 @@ def main():
                 finalRanks += ('FinalRank:' + str(-pr) + '\t' + str(int(n))+ '\n')
             except Exception, e:
                 print e
-        print finalRanks
+        sys.stdout.write(finalRanks)
     else:
         for n in adjacency.keys():
             a = adjacency[n]
