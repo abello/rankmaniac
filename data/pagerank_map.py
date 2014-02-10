@@ -39,16 +39,23 @@ def firstIteration():
         # of this node is its current pagerank divided by its outDegree
         # This can be seen by looking at the pi' = pi*G rule of iteration
         # pagerank
-        contribution = rank_curr / len(outLinks)
+
+        if len(outLinks) == 0:
+            contribution = 0
+        else:
+            contribution = rank_curr / len(outLinks)
+            
         for link in outLinks:
             # (child, contribution) pairs start with a '+'
             result = '+' + pickle.dumps(np.array([iteration, link, contribution]))
-            sys.stdout.write(result)
+            result = result.encode('string-escape')
+            print result
 
 
         # The adjlist stuff starts with _
-        adj = '_' + pickle.dumps(np.array([iteration, node, rank_curr, rank_prev, outLinks]))
-        sys.stdout.write(adj)
+        adj = '_' + pickle.dumps((iteration, node, rank_curr, rank_prev, outLinks))
+        adj = adj.encode('string-escape')
+        print adj
 
 
 def midIteration():
@@ -57,6 +64,7 @@ def midIteration():
     # Expected format of line:
     # np.array(iteration, node, rank_curr, rank_prev, np.array(outLinks))
     for line in sys.stdin:
+        line = line.decode('string-escape')
         info = pickle.loads(line)
 
         iteration = info[0]
@@ -77,11 +85,13 @@ def midIteration():
         for link in outLinks:
             contribution = rank_curr / len(outLinks)
             result = '+' + pickle.dumps(np.array(iteration, link, contribution))
-            sys.stdout.write(result)
+            result = result.encode('string-escape')
+            print result
 
     # The adjlist stuff starts with _
-    adj = '_' + pickle.dumps(np.array(iteration, node, rank_curr, rank_prev, outLinks))
-    sys.stdout.write(adj)
+    adj = '_' + pickle.dumps((iteration, node, rank_curr, rank_prev, outLinks))
+    adj = adj.encode('string-escape')
+    print adj
 
 
 

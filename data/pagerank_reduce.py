@@ -33,12 +33,13 @@ for line in sys.stdin:
 #         for n in nodes[:-1]:
 #             if int(n) not in result.keys():
 #                 result[int(n)] = 0
-        sys.stdout.write(line)
+        print line
 
     # If it starts with +, it's contribs
     # TODO: Make this an else while we show that this works
     elif line[0] == '+':
         # this is the case that we are reading the total list of nodes
+        line = line.decode('string-escape')
         info = pickle.loads(line[1:])
 
         iteration = info[0]
@@ -52,7 +53,8 @@ for line in sys.stdin:
     
 for node in result.keys():
     out = '+' + pickle.dumps(np.array([iteration, node, result[node]]))
-    sys.stdout.write(out)
+    out = out.encode('string-escape')
+    print out
 #     sys.stdout.write('+' + str(iteration) + ':' + str(r) + ':' + str(result[r]) + '\n')
     
 
