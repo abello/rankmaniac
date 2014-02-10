@@ -41,15 +41,17 @@ def firstIteration():
         # pagerank
 
         if len(outLinks) == 0:
-            contribution = 0
+            result = '+' + pickle.dumps(np.array([iteration, node, rank_curr]))
+            result = result.encode('string-escape')
+            print result
         else:
             contribution = rank_curr / len(outLinks)
             
-        for link in outLinks:
-            # (child, contribution) pairs start with a '+'
-            result = '+' + pickle.dumps(np.array([iteration, link, contribution]))
-            result = result.encode('string-escape')
-            print result
+            for link in outLinks:
+                # (child, contribution) pairs start with a '+'
+                result = '+' + pickle.dumps(np.array([iteration, link, contribution]))
+                result = result.encode('string-escape')
+                print result
 
 
         # The adjlist stuff starts with _

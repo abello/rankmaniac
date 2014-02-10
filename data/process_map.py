@@ -7,7 +7,7 @@ import cPickle as pickle
 # This program simply represents the identity function.
 #
 
-ALPHA = 1.0
+ALPHA = 0.8
 
 result = {}
 nodes = set()
