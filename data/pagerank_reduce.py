@@ -32,6 +32,7 @@ for line in sys.stdin:
         for n in nodes[:-1]:
             if int(n) not in result.keys():
                 result[int(n)] = 0
+
     elif line[0] == 'c':
         split_line = line[1:].split(':')
 
