@@ -2,6 +2,7 @@
 
 import sys
 import numpy as np
+import cPickle as pickle
 
 #
 # This program simply represents the identity function.
@@ -50,7 +51,7 @@ for line in sys.stdin:
             result[node] = contribution
     
 for node in result.keys():
-    out = '+' + pickle.dumps(np.array(iteration, node, result[node]))
+    out = '+' + pickle.dumps(np.array([iteration, node, result[node]]))
     sys.stdout.write(out)
 #     sys.stdout.write('+' + str(iteration) + ':' + str(r) + ':' + str(result[r]) + '\n')
     
