@@ -101,9 +101,9 @@ def main():
             try:
                 (pr, n) = h.heappop(result)
                 finalRanks += ('FinalRank:' + str(-pr) + '\t' + str(n) + '\n')
-            except:
+            except Exception, e:
 #TODO
-                print 'fail'
+                print e
                 pass
             
         sys.stdout.write(finalRanks)
