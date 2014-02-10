@@ -4,11 +4,7 @@ import sys
 import heapq as h
 import numpy as np
 
-<<<<<<< HEAD
 max_iter = 30
-=======
-max_iter = 50
->>>>>>> ed6713c8d0b016a430f73a048294eebf362c7abb
 
 def midIteration():
     nodeData = {}
