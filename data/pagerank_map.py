@@ -42,12 +42,12 @@ def firstIteration():
         contribution = rank_curr / len(outLinks)
         for link in outLinks:
             # (child, contribution) pairs start with a '+'
-            result = '+' + pickle.dumps(np.array(iteration), link, contribution) 
+            result = '+' + pickle.dumps(np.array([iteration, link, contribution]))
             sys.stdout.write(result)
 
 
         # The adjlist stuff starts with _
-        adj = '_' + pickle.dumps(np.array(iteration, node, rank_curr, rank_prev, outLinks))
+        adj = '_' + pickle.dumps(np.array([iteration, node, rank_curr, rank_prev, outLinks]))
         sys.stdout.write(adj)
 
 

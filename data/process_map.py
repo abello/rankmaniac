@@ -25,7 +25,7 @@ for line in sys.stdin:
         unpickled = pickle.loads(line[1:])
         nodes.add(unpickled[1])
 
-        for n in unpickled[4]
+        for n in unpickled[4]:
             nodes.add(n)
 
     # TODO: Change this to else eventually
@@ -41,7 +41,7 @@ for line in sys.stdin:
         else:
             result[node] = contribution
 
-resultKeys = set(result.keys)
+resultKeys = result.keys()
 for n in nodes:
     if n not in resultKeys:
         result[n] = 0
