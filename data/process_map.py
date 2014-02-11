@@ -6,7 +6,7 @@ import cPickle as pickle
 ALPHA = 0.85
 
 result = {} # dictionary will hold pairs of {node: sum_pagerank_of_node}
-nodes = set()
+nodes = set() # set will hold ALL node id's (even those without parents)
 
 # read a line of input
 for line in sys.stdin:
@@ -48,9 +48,6 @@ for line in sys.stdin:
 for n in nodes:
     if n not in result.keys():
         result[n] = 0
-
-#numNodes = len(result.keys())
-#sumRanks = sum(result.values())
 
 # for every node in the graph
 for r in result.keys():
