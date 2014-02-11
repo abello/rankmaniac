@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+
+
 import sys
 import numpy as np
 import cPickle as pickle
