@@ -41,8 +41,12 @@ def firstIteration():
         rank_prev = float(attributes[1])
         outLinks = np.array([int(x) for x in attributes[2:]])
 
-        # store the rank node gives to 1 of its children (if it has children)
-        contrib = (rank_curr/len(outLinks)) if len(outLinks) > 0 else 0
+        if len(outLinks) > 0:
+            contrib = (float(rank_curr)/len(outLinks))
+        else:
+            result = '+' + pickle.dumps(np.array([iteration, node, rank_curr]))
+            result = result.encode('string-escape')
+            print result
 
         for child in outLinks:
             # (child, contrib) pair lines start with a '+'
@@ -75,6 +79,7 @@ def midIteration():
     '''
 
     for line in sys.stdin:
+        sys.stderr.write(line + "\n")
 
         # Each input line will be formatted like the following example:
         #   np.array[iteration, node, rank_curr, rank_prev, np.array[outLinks]]
@@ -85,11 +90,19 @@ def midIteration():
         iteration = info[0]
         node      = info[1]
         rank_curr = info[2]
+#         sys.stderr.write("RANK CURR " + str(rank_curr) + "\n")
+#         sys.stderr.write("+++++++\n")
+#         sys.stderr.write(str(info));
+
         rank_prev = info[3]
         outLinks  = info[4]
 
-        # store the rank node gives to 1 of its children (if it has children)
-        contrib = (rank_curr/len(outLinks)) if len(outLinks) > 0 else 0
+        if len(outLinks) > 0:
+            contrib = (float(rank_curr)/len(outLinks))
+        else:
+            result = '+' + pickle.dumps(np.array([iteration, node, rank_curr]))
+            result = result.encode('string-escape')
+            print result
 
         for link in outLinks:
             # (child, contrib) pairs start with a '+'
