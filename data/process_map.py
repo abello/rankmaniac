@@ -7,7 +7,8 @@ import cPickle as pickle
 # This program simply represents the identity function.
 #
 
-ALPHA = 0.8
+# ALPHA = 0.85
+ALPHA = 1
 
 result = {}
 nodes = set()
@@ -24,21 +25,23 @@ for line in sys.stdin:
         # adj = '_' + pickle.dumps(np.array(iteration, node, rank_curr, rank_prev, outLinks))
         line = line.decode('string-escape')
         unpickled = pickle.loads(line[1:])
+#         sys.stderr.write(str(unpickled) + "\n")
         nodes.add(unpickled[1])
 
     # TODO: Change this to else eventually
     elif line[0] == '+':
         line = line.decode('string-escape')
         info = pickle.loads(line[1:])
+#         sys.stderr.write(str(info) + "\n")
 
         iteration = info[0]
         node = info[1]
         contribution = info[2]
 
         if node in result.keys():
-            result[node] += contribution
+            result[int(node)] += contribution
         else:
-            result[node] = contribution
+            result[int(node)] = contribution
 
 
 for n in nodes:
@@ -48,7 +51,8 @@ for n in nodes:
 numNodes = len(result.keys())
 sumRanks = sum(result.values())
 for r in result.keys():
-    result[r] = ALPHA * result[r] + (1 - ALPHA) / numNodes
+#     sys.stderr.write(str(result[r]) + "\n")
+    result[r] = ALPHA * result[r] + (1 - ALPHA)
     out = '+' + pickle.dumps([iteration, r, result[r]])
     out = out.encode('string-escape')
     print out
