@@ -9,31 +9,34 @@ import cPickle as pickle
 result = {}
 iteration = 0
 
-
+# read a line of input
 for line in sys.stdin:
  
-    # This is adj information, pass it along
+    # if line starts with '_' it's adj info; pass it along as is
     if line[0] == '_':
-        sys.stdout.write(line)
+        sys.stdout.write(line) # (doesn't need newline)
 
-    # If it starts with +, it's contribs
-    # TODO: Make this an else while we show that this works
-    elif line[0] == '+':
+    # else line starts with '+' and it's contrib info; grab it
+    else:
+        # decode (unescape) and un-pickle the line
         line = line.decode('string-escape')
         info = pickle.loads(line[1:])
 
+        # save each value in the line
         iteration = info[0]
-        node = info[1]
-        contribution = info[2]
+        node      = info[1]
+        contrib   = info[2]
 
         if node in result.keys():
-            result[int(node)] += contribution
+            # increment node's pagerank in {result} with another contribution
+            result[int(node)] += contrib
         else:
-            result[int(node)] = contribution
+            # initialize node's pagerank entry in {result}
+            result[int(node)] = contrib
 
-
+# loop over every node with pagerank and emit it
 for node in result.keys():
+    # (node, rank) pair lines start with a '+'
     out = '+' + pickle.dumps(np.array([iteration, node, result[int(node)]]))
     out = out.encode('string-escape')
-    print out
-#     sys.stdout.write('+' + str(iteration) + ':' + str(r) + ':' + str(result[r]) + '\n')
+    print out # (needs newline)
