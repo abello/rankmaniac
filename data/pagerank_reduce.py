@@ -27,13 +27,13 @@ for line in sys.stdin:
         contribution = info[2]
 
         if node in result.keys():
-            result[int(node)] += contribution
+            result[node] += contribution
         else:
-            result[int(node)] = contribution
+            result[node] = contribution
 
     
 for node in result.keys():
-    out = '+' + pickle.dumps(np.array([iteration, node, result[int(node)]]))
+    out = '+' + pickle.dumps((iteration, node, result[node]))
     out = out.encode('string-escape')
     print out
 #     sys.stdout.write('+' + str(iteration) + ':' + str(r) + ':' + str(result[r]) + '\n')
