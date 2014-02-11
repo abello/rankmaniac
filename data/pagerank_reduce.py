@@ -4,10 +4,7 @@ import sys
 import numpy as np
 import cPickle as pickle
 
-# this dictionary will hold information of the pagerank contributions of
-# each node
-result = {}
-iteration = 0
+result = {} # dictionary will hold pairs of {node: sum_pagerank_of_node}
 
 # read a line of input
 for line in sys.stdin:
@@ -29,14 +26,14 @@ for line in sys.stdin:
 
         if node in result.keys():
             # increment node's pagerank in {result} with another contribution
-            result[int(node)] += contrib
+            result[node] += contrib
         else:
             # initialize node's pagerank entry in {result}
-            result[int(node)] = contrib
+            result[node] = contrib
 
 # loop over every node with pagerank and emit it
 for node in result.keys():
     # (node, rank) pair lines start with a '+'
-    out = '+' + pickle.dumps(np.array([iteration, node, result[int(node)]]))
+    out = '+' + pickle.dumps((iteration, node, result[node]))
     out = out.encode('string-escape')
     print out # (needs newline)

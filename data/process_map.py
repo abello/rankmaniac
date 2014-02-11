@@ -3,42 +3,43 @@
 import sys
 import cPickle as pickle
 
-#
-# This program simply represents the identity function.
-#
-
 ALPHA = 0.85
 
-result = {}
+result = {} # dictionary will hold pairs of {node: sum_pagerank_of_node}
 nodes = set()
-iteration = 0
 
+# read a line of input
 for line in sys.stdin:
+
+    # if line starts with '_' it's adj info; pass it along but also save its 
+    # node so that at the end we'll have a full list of nodes - INCLUDING nodes
+    # that do not have any parents!
     if line[0] == '_':
-        # this is the case that we are reading the total list of nodes
-        # use this to fill out ourdictionary
+        sys.stdout.write(line) # (doesn't need newline)
 
-        # Emit adjlist
-        sys.stdout.write(line)
-
-        # adj = '_' + pickle.dumps(np.array(iteration, node, rank_curr, rank_prev, outLinks))
+        # decode (unescape) and un-pickle the line
         line = line.decode('string-escape')
         unpickled = pickle.loads(line[1:])
+
+        # record the node in our set
         nodes.add(unpickled[1])
 
     # TODO: Change this to else eventually
+    # else line starts with '+' and it's contrib info; grab it
     elif line[0] == '+':
         line = line.decode('string-escape')
         info = pickle.loads(line[1:])
 
         iteration = info[0]
-        node = info[1]
-        contribution = info[2]
+        node      = info[1]
+        contrib   = info[2]
 
         if node in result.keys():
-            result[node] += contribution
+            result[node] += contrib
         else:
-            result[node] = contribution
+            result[node] = contrib
+    else:
+        assert False
 
 
 for n in nodes:
