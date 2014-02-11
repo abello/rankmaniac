@@ -41,25 +41,31 @@ def firstIteration():
         rank_prev = float(attributes[1])
         outLinks = np.array([int(x) for x in attributes[2:]])
 
+        # if current node has one or more children, split its pagerank equally
+        # and distribute to each of them:
         if len(outLinks) > 0:
-            contrib = (float(rank_curr)/len(outLinks))
+            contrib = float(rank_curr) / len(outLinks)
+            for child in outLinks:
+                # (node, rank) pair lines start with a '+'
+                result = '+' + pickle.dumps(np.array([iteration, child, contrib]))
+                result = result.encode('string-escape')
+                print result
+
+        # else if current node has no children, keep its pagerank in a block and
+        # assign it to itself:
         else:
+            # (node, rank) pair lines start with a '+'
             result = '+' + pickle.dumps(np.array([iteration, node, rank_curr]))
             result = result.encode('string-escape')
             print result
 
-        for child in outLinks:
-            # (child, contrib) pair lines start with a '+'
-            result = '+' + pickle.dumps(np.array([iteration, child, contrib]))
-            result = result.encode('string-escape')
-            print result
-
+        # make a record of this node, its rank(s), and its children, in order to
+        # pass on the structure of the graph as many times as the function runs.
         # adjacency information lines start with a '_'
         adj = '_' + pickle.dumps((iteration, node, rank_curr, rank_prev, outLinks))
         adj = adj.encode('string-escape')
         print adj
 
-    
 
 
 def midIteration():
@@ -84,33 +90,42 @@ def midIteration():
         # Each input line will be formatted like the following example:
         #   np.array[iteration, node, rank_curr, rank_prev, np.array[outLinks]]
 
+        # decode (unescape) and un-pickle the line
         temp = line.decode('string-escape')
         info = pickle.loads(temp)
 
+        # save each value in the line
         iteration = info[0]
         node      = info[1]
         rank_curr = info[2]
-
         rank_prev = info[3]
         outLinks  = info[4]
 
+        # if current node has one or more children, split its pagerank equally
+        # and distribute to each of them:
         if len(outLinks) > 0:
             contrib = (float(rank_curr)/len(outLinks))
+            for link in outLinks:
+                # (node, rank) pair lines start with a '+'
+                result = '+' + pickle.dumps(np.array([iteration, link, contrib]))
+                result = result.encode('string-escape')
+                print result
+
+        # else if current node has no children, keep its pagerank in a block and
+        # assign it to itself:
         else:
+            # (node, rank) pair lines start with a '+'
             result = '+' + pickle.dumps(np.array([iteration, node, rank_curr]))
             result = result.encode('string-escape')
             print result
 
-        for link in outLinks:
-            # (child, contrib) pairs start with a '+'
-            result = '+' + pickle.dumps(np.array([iteration, link, contrib]))
-            result = result.encode('string-escape')
-            print result
-
+        # make a record of this node, its rank(s), and its children, in order to
+        # pass on the structure of the graph as many times as the function runs.
         # adjacency information lines start with a '_'
         adj = '_' + line.decode('string-escape')[:-1]
         adj = adj.encode('string-escape')
         print adj
+
 
 
 #stdin filepointer
