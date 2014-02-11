@@ -56,7 +56,7 @@ def main():
                 finalRanks += ('FinalRank:' + str(-pr) + '\t' + str(n)+ '\n')
             except Exception, e:
                 print e
-        print finalRanks
+        sys.stdout.write(finalRanks)
     else:
         for n in adjacency.keys():
             a = adjacency[n]
