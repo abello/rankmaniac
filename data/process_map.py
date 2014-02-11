@@ -24,33 +24,41 @@ for line in sys.stdin:
         # record the node in our set
         nodes.add(unpickled[1])
 
-    # TODO: Change this to else eventually
     # else line starts with '+' and it's contrib info; grab it
-    elif line[0] == '+':
+    else:
+
+        # decode (unescape) and un-pickle the line
         line = line.decode('string-escape')
         info = pickle.loads(line[1:])
 
+        # save each value the line holds
         iteration = info[0]
         node      = info[1]
         contrib   = info[2]
 
         if node in result.keys():
+            # increment node's pagerank in {result} with another contribution
             result[node] += contrib
         else:
+            # initialize node's pagerank entry in {result}
             result[node] = contrib
-    else:
-        assert False
 
-
+# find every node in the graph without parents
+# and initialize its pagerank to zero
 for n in nodes:
     if n not in result.keys():
         result[n] = 0
 
-numNodes = len(result.keys())
-sumRanks = sum(result.values())
+#numNodes = len(result.keys())
+#sumRanks = sum(result.values())
+
+# for every node in the graph
 for r in result.keys():
+
+    # scale node's pagerank so that it's always nonzero
     result[r] = ALPHA * result[r] + (1 - ALPHA)
+
+    # (node, rank) pair lines start with a '+'
     out = '+' + pickle.dumps([iteration, r, result[r]])
     out = out.encode('string-escape')
-    print out
-
+    print out # (newline needed)
