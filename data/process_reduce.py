@@ -4,7 +4,7 @@ import sys
 import heapq as h
 import numpy as np
 import cPickle as pickle
-max_iter = 11
+max_iter = 21
 
 def main():
     adjacency = {}
