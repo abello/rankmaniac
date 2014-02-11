@@ -49,7 +49,7 @@ def firstIteration():
                 # (node, rank) pair lines start with a '+'
                 result = '+' + pickle.dumps(np.array([iteration, child, contrib]))
                 result = result.encode('string-escape')
-                print result
+                print result # (needs newline)
 
         # else if current node has no children, keep its pagerank in a block and
         # assign it to itself:
@@ -57,14 +57,14 @@ def firstIteration():
             # (node, rank) pair lines start with a '+'
             result = '+' + pickle.dumps(np.array([iteration, node, rank_curr]))
             result = result.encode('string-escape')
-            print result
+            print result # (needs newline)
 
         # make a record of this node, its rank(s), and its children, in order to
         # pass on the structure of the graph as many times as the function runs.
         # adjacency information lines start with a '_'
         adj = '_' + pickle.dumps((iteration, node, rank_curr, rank_prev, outLinks))
         adj = adj.encode('string-escape')
-        print adj
+        print adj # (needs newline)
 
 
 
@@ -109,7 +109,7 @@ def midIteration():
                 # (node, rank) pair lines start with a '+'
                 result = '+' + pickle.dumps(np.array([iteration, link, contrib]))
                 result = result.encode('string-escape')
-                print result
+                print result # (needs newline)
 
         # else if current node has no children, keep its pagerank in a block and
         # assign it to itself:
@@ -117,14 +117,14 @@ def midIteration():
             # (node, rank) pair lines start with a '+'
             result = '+' + pickle.dumps(np.array([iteration, node, rank_curr]))
             result = result.encode('string-escape')
-            print result
+            print result # (needs newline)
 
         # make a record of this node, its rank(s), and its children, in order to
         # pass on the structure of the graph as many times as the function runs.
         # adjacency information lines start with a '_'
         adj = '_' + line.decode('string-escape')[:-1]
         adj = adj.encode('string-escape')
-        print adj
+        print adj # (needs newline)
 
 
 
