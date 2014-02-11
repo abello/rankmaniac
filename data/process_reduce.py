@@ -24,7 +24,6 @@ def main():
 
             line = line.decode('string-escape')
             unpickled = pickle.loads(line[1:])
-#             sys.stderr.write(str(unpickled) + "\n")
             iteration = unpickled[0]
 
             # if iteration is our max iteration, we just stop, no need to process this
@@ -38,7 +37,6 @@ def main():
         elif line[0] == '+':
             line = line.decode('string-escape')
             info = pickle.loads(line[1:])
-#             sys.stderr.write(str(info) + "\n")
 
             iteration = info[0]
             node = info[1]
@@ -64,12 +62,10 @@ def main():
             a = adjacency[n]
             # TODO: There might be a keyerror in pageRanks[n]
             result = pickle.dumps((a[0], a[1], pageRanks[n], a[2], a[3]))
-            sys.stderr.write("PR " + str(pageRanks[n]) + "\n")
             result = result.encode('string-escape')
             print result
             a = result.decode('string-escape')
             a = pickle.loads(a)
-            sys.stderr.write(str(a) + "\n")
 
 
 if __name__ == "__main__":

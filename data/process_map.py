@@ -24,18 +24,15 @@ for line in sys.stdin:
         # adj = '_' + pickle.dumps(np.array(iteration, node, rank_curr, rank_prev, outLinks))
         line = line.decode('string-escape')
         unpickled = pickle.loads(line[1:])
-#         sys.stderr.write(str(unpickled) + "\n")
         nodes.add(unpickled[1])
 
     # TODO: Change this to else eventually
     elif line[0] == '+':
         line = line.decode('string-escape')
         info = pickle.loads(line[1:])
-#         sys.stderr.write(str(info) + "\n")
 
         iteration = info[0]
         node = info[1]
-        sys.stderr.write("node: " + str(node) + "\n")
         contribution = info[2]
 
         if node in result.keys():
@@ -51,7 +48,6 @@ for n in nodes:
 numNodes = len(result.keys())
 sumRanks = sum(result.values())
 for r in result.keys():
-    sys.stderr.write('result[r]: ' + str(r) + ': ' + str(result[r]) + "\n")
     result[r] = ALPHA * result[r] + (1 - ALPHA)
     out = '+' + pickle.dumps([iteration, r, result[r]])
     out = out.encode('string-escape')
