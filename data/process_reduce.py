@@ -4,7 +4,7 @@ import sys
 import heapq as h
 import numpy as np
 import cPickle as pickle
-max_iter = 5
+max_iter = 50
 
 def main():
     adjacency = {}
@@ -64,7 +64,7 @@ def main():
             a = adjacency[n]
             # TODO: There might be a keyerror in pageRanks[n]
             result = pickle.dumps((a[0], a[1], pageRanks[n], a[2], a[3]))
-#             sys.stderr.write("PR " + str(pageRanks[n]) + "\n")
+            sys.stderr.write("PR " + str(pageRanks[n]) + "\n")
             result = result.encode('string-escape')
             print result
             a = result.decode('string-escape')
