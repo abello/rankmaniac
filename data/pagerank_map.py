@@ -4,9 +4,9 @@ import cPickle as pickle
 
 def firstIteration():
     '''
-    This only runs on the first iteration of the computation.  Because of this,
-    it's designed to parse default-formatted lines from an input.txt file.  It 
-    outputs pickled strings that are faster to process.
+    This only runs on the first iteration of the computation. Because of this,
+    it's designed to parse default-formatted lines from an input.txt file using
+    the sys.stdin buffer. It outputs pickled strings that are faster to process.
 
     There are two kinds of pickled output strings:
         Of the form "+" + pickledString:
@@ -60,7 +60,9 @@ def midIteration():
     '''
     This runs on evey iteration of the computation BUT the first.  Because of
     this, it's designed to parse custom pickled lines gotten from sys.stdin.  It 
-    also outputs pickled strings in the same format.
+    also outputs pickled strings.  NOTE: the output strings are formatted
+    slightly differently; input strings don't have '_' and '+' prepended chars,
+    and they are only adjacency lines - not contribution lines.
 
     There are two kinds of pickled output strings:
         Of the form "+" + pickledString:
