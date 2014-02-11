@@ -11,8 +11,7 @@ output='output.txt'
 
 while [ $i -lt $stop ]
 do
-#python pagerank_map.py < $input | sort | python pagerank_reduce.py | python process_map.py | sort | python process_reduce.py > $output
-    python pagerank_map.py < $input | python pagerank_reduce.py | python process_map.py | python process_reduce.py > $output
+    python pagerank_map.py < $input | sort | python pagerank_reduce.py | python process_map.py | sort | python process_reduce.py > $output
 
 
     # Swap input with output, to go to next iter
