@@ -36,9 +36,9 @@ for line in sys.stdin:
         contribution = info[2]
 
         if node in result.keys():
-            result[int(node)] += contribution
+            result[node] += contribution
         else:
-            result[int(node)] = contribution
+            result[node] = contribution
 
 
 for n in nodes:
