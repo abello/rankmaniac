@@ -50,7 +50,7 @@ def firstIteration():
             contrib = float(rank_curr) / len(outLinks)
             for child in outLinks:
                 # (node, rank) pair lines start with a '+'
-                result = '+' + pickle.dumps(np.array([iteration, child, contrib]))
+                result = '+' + pickle.dumps((iteration, child, contrib))
                 result = result.encode('string-escape')
                 print result # (needs newline)
 
@@ -58,7 +58,7 @@ def firstIteration():
         # assign it to itself:
         else:
             # (node, rank) pair lines start with a '+'
-            result = '+' + pickle.dumps(np.array([iteration, node, rank_curr]))
+            result = '+' + pickle.dumps((iteration, node, rank_curr))
             result = result.encode('string-escape')
             print result # (needs newline)
 
@@ -110,7 +110,7 @@ def midIteration():
             contrib = (float(rank_curr)/len(outLinks))
             for link in outLinks:
                 # (node, rank) pair lines start with a '+'
-                result = '+' + pickle.dumps(np.array([iteration, link, contrib]))
+                result = '+' + pickle.dumps((iteration, link, contrib))
                 result = result.encode('string-escape')
                 print result # (needs newline)
 
@@ -118,7 +118,7 @@ def midIteration():
         # assign it to itself:
         else:
             # (node, rank) pair lines start with a '+'
-            result = '+' + pickle.dumps(np.array([iteration, node, rank_curr]))
+            result = '+' + pickle.dumps((iteration, node, rank_curr))
             result = result.encode('string-escape')
             print result # (needs newline)
 
