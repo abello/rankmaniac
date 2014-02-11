@@ -33,7 +33,7 @@ def main():
             node = unpickled[1]
             rank_curr = unpickled[2]
             outLinks = unpickled[4]
-            adjacency[node] = (iteration + 1, node, rank_curr, outLinks)
+            adjacency[int(node)] = (iteration + 1, node, rank_curr, outLinks)
         elif line[0] == '+':
             line = line.decode('string-escape')
             info = pickle.loads(line[1:])
@@ -45,7 +45,7 @@ def main():
             if iteration == max_iter:
                 h.heappush(result, (-pr, node))
             else:
-                pageRanks[node] = pr
+                pageRanks[int(node)] = pr
 
 
     if iteration == max_iter:
@@ -53,7 +53,7 @@ def main():
         for i in range(20):
             try:
                 (pr, n) = h.heappop(result)
-                finalRanks += ('FinalRank:' + str(-pr) + '\t' + str(n)+ '\n')
+                finalRanks += ('FinalRank:' + str(-pr) + '\t' + str(int(node))+ '\n')
             except Exception, e:
                 print e
         print finalRanks
