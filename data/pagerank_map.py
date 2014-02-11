@@ -18,6 +18,9 @@ def firstIteration():
             input.txt (because we need to preserve all adjacency information).
     '''
 
+    numLinks = 0
+    numAdj = 0
+
     for line in sys.stdin:
 
         # Each input line will be formatted like the following example
@@ -44,11 +47,13 @@ def firstIteration():
         if len(outLinks) > 0:
             contrib = (float(rank_curr)/len(outLinks))
         else:
+            numLinks += 1
             result = '+' + pickle.dumps(np.array([iteration, node, rank_curr]))
             result = result.encode('string-escape')
             print result
 
         for child in outLinks:
+            numLinks += 1
             # (child, contrib) pair lines start with a '+'
             result = '+' + pickle.dumps(np.array([iteration, child, contrib]))
             result = result.encode('string-escape')
@@ -58,6 +63,11 @@ def firstIteration():
         adj = '_' + pickle.dumps((iteration, node, rank_curr, rank_prev, outLinks))
         adj = adj.encode('string-escape')
         print adj
+        numAdj += 1
+
+    sys.stderr.write('iteration: ' + str(iteration) + ', numLinks: ' + str(numLinks) + '\n')
+    sys.stderr.write('iteration: ' + str(iteration) + ', numAdj: ' + str(numAdj) + '\n')
+    
 
 
 def midIteration():
@@ -78,19 +88,21 @@ def midIteration():
             input.txt (because we need to preserve all adjacency information).
     '''
 
-    for line in sys.stdin:
-        sys.stderr.write(line + "\n")
+    iteration = 0
+    numLinks = 0
+    numAdj = 0
 
+    for line in sys.stdin:
         # Each input line will be formatted like the following example:
         #   np.array[iteration, node, rank_curr, rank_prev, np.array[outLinks]]
 
-        line = line.decode('string-escape')
-        info = pickle.loads(line)
+        temp = line.decode('string-escape')
+        info = pickle.loads(temp)
 
         iteration = info[0]
         node      = info[1]
         rank_curr = info[2]
-#         sys.stderr.write("RANK CURR " + str(rank_curr) + "\n")
+        sys.stderr.write("RANK CURR " + str(iteration) + ', ' + str(node) + ': ' + str(rank_curr) + "\n")
 #         sys.stderr.write("+++++++\n")
 #         sys.stderr.write(str(info));
 
@@ -100,23 +112,31 @@ def midIteration():
         if len(outLinks) > 0:
             contrib = (float(rank_curr)/len(outLinks))
         else:
+            numLinks += 1
             result = '+' + pickle.dumps(np.array([iteration, node, rank_curr]))
             result = result.encode('string-escape')
             print result
 
         for link in outLinks:
+            numLinks += 1
+            sys.stderr.write('link: ' + str(link) + '\n')
             # (child, contrib) pairs start with a '+'
             result = '+' + pickle.dumps(np.array([iteration, link, contrib]))
             result = result.encode('string-escape')
             print result
+            sys.stderr.write(result)
 
         # adjacency information lines start with a '_'
-        adj = '_' + line
+        adj = '_' + line.decode('string-escape')[:-1]
         adj = adj.encode('string-escape')
-        sys.stdout.write(adj)
+        print adj
+        numAdj += 1
+
+    sys.stderr.write('iteration: ' + str(iteration) + ', numLinks: ' + str(numLinks) + '\n')
+    sys.stderr.write('iteration: ' + str(iteration) + ', numAdj: ' + str(numAdj) + '\n')
 
 
-# stdin filepointer
+#stdin filepointer
 stdin = sys.stdin
 
 # Get first line and back up original position 
