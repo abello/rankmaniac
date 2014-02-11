@@ -39,10 +39,10 @@ def firstIteration():
 
         # save elements from strings
         iteration = 0
-        node = int(split_line[0][7:])
+        node      = int(split_line[0][7:])
         rank_curr = float(attributes[0])
         rank_prev = float(attributes[1])
-        outLinks = np.array([int(x) for x in attributes[2:]])
+        outLinks  = np.array([int(x) for x in attributes[2:]])
 
         # if current node has one or more children, split its pagerank equally
         # and distribute to each of them:
@@ -97,7 +97,7 @@ def midIteration():
         temp = line.decode('string-escape')
         info = pickle.loads(temp)
 
-        # save each value in the line
+        # save each value the line holds
         iteration = info[0]
         node      = info[1]
         rank_curr = info[2]

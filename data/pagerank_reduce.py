@@ -19,7 +19,7 @@ for line in sys.stdin:
         line = line.decode('string-escape')
         info = pickle.loads(line[1:])
 
-        # save each value in the line
+        # save each value the line holds
         iteration = info[0]
         node      = info[1]
         contrib   = info[2]
