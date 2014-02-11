@@ -90,8 +90,8 @@ def midIteration():
         contrib = (rank_curr/len(outLinks)) if len(outLinks) > 0 else 0
 
         for link in outLinks:
-            # (child, contribution) pairs start with a '+'
-            result = '+' + pickle.dumps(np.array([iteration, link, contribution]))
+            # (child, contrib) pairs start with a '+'
+            result = '+' + pickle.dumps(np.array([iteration, link, contrib]))
             result = result.encode('string-escape')
             print result
 
