@@ -17,10 +17,10 @@ def main():
     threshold_pr = 0    # the smallest pagerank stored in result_heap
 
     # result_heap will record top 20 pageranks of all MAX_ITER runs.  we push 20
-    # (0, 0) pairs into it at the start to define its size:
+    # (-1, -1) pairs into it at the start to define its size:
     result_heap = []
     for i in range(20):
-        h.heappush(result_heap, (0, 0))
+        h.heappush(result_heap, (-1, -1))
 
     # get a line of input
     for line in sys.stdin:
@@ -74,7 +74,7 @@ def main():
 
                     # remove smallest-pr-from-the heap and push the new pr into
                     # it (note that size of heap is maintained)
-                    h.heapreplace(result_heap, (pr, node))
+                    h.pushpop(result_heap, (pr, node))
 
                     # update the threshold value to the new smallest-pr-in-heap
                     threshold_pr, _ = h.nsmallest(1, result_heap)[0]
