@@ -40,7 +40,6 @@ for line in sys.stdin:
 # loop over every node with pagerank and emit it
 for node in result.keys():
     # (node, rank) pair lines start with a '+'
-    out = '+' + pickle.dumps((iteration, node, ALPHA * result[node]  + (1 - ALPHA)
-))
+    out = '+' + pickle.dumps((iteration, node, ALPHA * result[node]  + (1 - ALPHA)))
     out = str(node) + "\t" + out.encode('string-escape')
     print out # (needs newline)
