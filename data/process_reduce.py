@@ -80,7 +80,7 @@ def main():
                     threshold_pr, _ = h.nsmallest(1, result_heap)[0]
         else:
             #victor
-            pass
+            print "elsecase: " + line
 
     # if not every iteration has run yet
     if iteration != MAX_ITER:
