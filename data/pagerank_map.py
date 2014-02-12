@@ -146,6 +146,8 @@ def midIteration(firstLine):
     #   np.array[iteration, node, rank_curr, rank_prev, np.array[outLinks]]
 
     # decode (unescape) and un-pickle the line
+    index = firstLine.find('\t')
+    firstLine = firstLine[index+1:]
     temp = firstLine.decode('string-escape')
     info = pickle.loads(temp)
 
