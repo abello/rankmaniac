@@ -8,6 +8,8 @@ result = {} # dictionary will hold pairs of {node: sum_pagerank_of_node}
 
 # read a line of input
 for line in sys.stdin:
+    index = line.find('\t')
+    line = line[index+1:]
  
     # if line starts with '_' it's adj info; pass it along as is
     if line[0] == '_':

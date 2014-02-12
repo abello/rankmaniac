@@ -10,6 +10,8 @@ nodes = set() # set will hold ALL node id's (even those without parents)
 
 # read a line of input
 for line in sys.stdin:
+    index = line.find('\t')
+    line = line[index+1:]
 
     # if line starts with '_' it's adj info; pass it along but also save its 
     # node so that at the end we'll have a full list of nodes - INCLUDING nodes
