@@ -74,7 +74,7 @@ def main():
 
                     # remove smallest-pr-from-the heap and push the new pr into
                     # it (note that size of heap is maintained)
-                    h.pushpop(result_heap, (pr, node))
+                    h.heappushpop(result_heap, (pr, node))
 
                     # update the threshold value to the new smallest-pr-in-heap
                     threshold_pr, _ = h.nsmallest(1, result_heap)[0]
