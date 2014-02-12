@@ -48,26 +48,22 @@ def firstIteration(firstLine):
         contrib = float(rank_curr) / len(outLinks)
         for child in outLinks:
             # (node, rank) pair lines start with a '+'
-            result = '+' + pickle.dumps((iteration, child, contrib))
-            result = result.encode('string-escape')
-            result = str(child) + '\t' + result
+            result = str(child) + '\t' + '+' + str(iteration) + ',' + str(child) + ',' + str(contrib)
             print result # (needs newline)
 
     # else if current node has no children, keep its pagerank in a block and
     # assign it to itself:
     else:
         # (node, rank) pair lines start with a '+'
-        result = '+' + pickle.dumps((iteration, node, rank_curr))
-        result = result.encode('string-escape')
-        result = str(node) + '\t' + result
+        result = str(node) + '\t' + '+' + str(iteration) + ',' + str(node) + ',' + str(rank_curr)
         print result # (needs newline)
 
     # make a record of this node, its rank(s), and its children, in order to
     # pass on the structure of the graph as many times as the function runs.
     # adjacency information lines start with a '_'
-    adj = '_' + pickle.dumps((iteration, node, rank_curr, rank_prev, outLinks))
-    adj = adj.encode('string-escape')
-    adj = 'adj\t' + adj
+    adj = 'adj\t_' + str(iteration) + ',' + str(node) + ',' + str(rank_curr) + ',' + str(rank_prev)
+    for link in outLinks:
+        adj += (',' + str(link))
     print adj # (needs newline)
 
 
@@ -100,26 +96,22 @@ def firstIteration(firstLine):
             contrib = float(rank_curr) / len(outLinks)
             for child in outLinks:
                 # (node, rank) pair lines start with a '+'
-                result = '+' + pickle.dumps((iteration, child, contrib))
-                result = result.encode('string-escape')
-                result = str(child) + '\t' + result
+                result = str(child) + '\t' + '+' + str(iteration) + ',' + str(child) + ',' + str(contrib)
                 print result # (needs newline)
 
         # else if current node has no children, keep its pagerank in a block and
         # assign it to itself:
         else:
             # (node, rank) pair lines start with a '+'
-            result = '+' + pickle.dumps((iteration, node, rank_curr))
-            result = result.encode('string-escape')
-            result = str(node) + '\t' + result
+            result = str(node) + '\t' + '+' + str(iteration) + ',' + str(node) + ',' + str(rank_curr)
             print result # (needs newline)
 
         # make a record of this node, its rank(s), and its children, in order to
         # pass on the structure of the graph as many times as the function runs.
         # adjacency information lines start with a '_'
-        adj = '_' + pickle.dumps((iteration, node, rank_curr, rank_prev, outLinks))
-        adj = adj.encode('string-escape')
-        adj = 'adj\t' + adj
+        adj = 'adj\t_' + str(iteration) + ',' + str(node) + ',' + str(rank_curr) + ',' + str(rank_prev)
+        for link in outLinks:
+            adj += (',' + str(link))
         print adj # (needs newline)
 
 
@@ -146,17 +138,18 @@ def midIteration(firstLine):
     #   np.array[iteration, node, rank_curr, rank_prev, np.array[outLinks]]
 
     # decode (unescape) and un-pickle the line
+    split_line = firstLine.split()
+
     index = firstLine.find('\t')
-    firstLine = firstLine[index+1:]
-    temp = firstLine.decode('string-escape')
-    info = pickle.loads(temp)
+    key = split_line[0]
+    attributes = split_line[1].split(',')
 
     # save each value the line holds
-    iteration = info[0]
-    node      = info[1]
-    rank_curr = info[2]
-    rank_prev = info[3]
-    outLinks  = info[4]
+    iteration = int(attributes[0])
+    node      = int(attributes[1])
+    rank_curr = int(attributes[2])
+    rank_prev = int(attributes[3])
+    outLinks  = np.array([int(x) for x in attributes[4:]])
 
     # if current node has one or more children, split its pagerank equally
     # and distribute to each of them:
@@ -164,44 +157,40 @@ def midIteration(firstLine):
         contrib = (float(rank_curr)/len(outLinks))
         for link in outLinks:
             # (node, rank) pair lines start with a '+'
-            result = '+' + pickle.dumps((iteration, link, contrib))
-            result = result.encode('string-escape')
-            result = str(link) + '\t' + result
+            result = str(child) + '\t' + '+' + str(iteration) + ',' + str(child) + ',' + str(contrib)
             print result # (needs newline)
 
     # else if current node has no children, keep its pagerank in a block and
     # assign it to itself:
     else:
         # (node, rank) pair lines start with a '+'
-        result = '+' + pickle.dumps((iteration, node, rank_curr))
-        result = result.encode('string-escape')
-        result = str(node) + '\t' + result
+        result = str(node) + '\t' + '+' + str(iteration) + ',' + str(node) + ',' + str(rank_curr)
         print result # (needs newline)
 
     # make a record of this node, its rank(s), and its children, in order to
     # pass on the structure of the graph as many times as the function runs.
     # adjacency information lines start with a '_'
-    adj = '_' + firstLine.decode('string-escape')[:-1]
-    adj = adj.encode('string-escape')
-    adj = 'adj\t' + adj
+    adj = 'adj\t_' + str(iteration) + ',' + str(node) + ',' + str(rank_curr) + ',' + str(rank_prev)
+    for link in outLinks:
+        adj += (',' + str(link))
     print adj # (needs newline)
 
     for line in sys.stdin:
         # Each input line will be formatted like the following example:
         #   np.array[iteration, node, rank_curr, rank_prev, np.array[outLinks]]
 
-        # decode (unescape) and un-pickle the line
-        index = line.find('\t')
-        line = line[index+1:]
-        temp = line.decode('string-escape')
-        info = pickle.loads(temp)
+        split_line = firstLine.split()
+
+        index = firstLine.find('\t')
+        key = split_line[0]
+        attributes = split_line[1].split(',')
 
         # save each value the line holds
-        iteration = info[0]
-        node      = info[1]
-        rank_curr = info[2]
-        rank_prev = info[3]
-        outLinks  = info[4]
+        iteration = int(attributes[0])
+        node      = int(attributes[1])
+        rank_curr = int(attributes[2])
+        rank_prev = int(attributes[3])
+        outLinks  = np.array([int(x) for x in attributes[4:]])
 
         # if current node has one or more children, split its pagerank equally
         # and distribute to each of them:
@@ -209,26 +198,22 @@ def midIteration(firstLine):
             contrib = (float(rank_curr)/len(outLinks))
             for link in outLinks:
                 # (node, rank) pair lines start with a '+'
-                result = '+' + pickle.dumps((iteration, link, contrib))
-                result = result.encode('string-escape')
-                result = str(link) + '\t' + result
+                result = str(child) + '\t' + '+' + str(iteration) + ',' + str(child) + ',' + str(contrib)
                 print result # (needs newline)
 
         # else if current node has no children, keep its pagerank in a block and
         # assign it to itself:
         else:
             # (node, rank) pair lines start with a '+'
-            result = '+' + pickle.dumps((iteration, node, rank_curr))
-            result = result.encode('string-escape')
-            result = str(node) + '\t' + result
+            result = str(node) + '\t' + '+' + str(iteration) + ',' + str(node) + ',' + str(rank_curr)
             print result # (needs newline)
 
         # make a record of this node, its rank(s), and its children, in order to
         # pass on the structure of the graph as many times as the function runs.
         # adjacency information lines start with a '_'
-        adj = '_' + line.decode('string-escape')[:-1]
-        adj = adj.encode('string-escape')
-        adj = 'adj\t' + adj
+        adj = 'adj\t_' + str(iteration) + ',' + str(node) + ',' + str(rank_curr) + ',' + str(rank_prev)
+        for link in outLinks:
+            adj += (',' + str(link))
         print adj # (needs newline)
 
 
