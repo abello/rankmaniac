@@ -14,7 +14,7 @@ for line in sys.stdin:
  
     # if line starts with '_' it's adj info; pass it along as is
     if line[0] == '_':
-        sys.stdout.write(str(1) + "\t" + line) # (doesn't need newline)
+        sys.stdout.write("adj\t" + line) # (doesn't need newline)
 
     # else line starts with '+' and it's contrib info; grab it
     elif line[0] == '+':
