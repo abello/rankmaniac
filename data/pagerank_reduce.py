@@ -17,7 +17,7 @@ for line in sys.stdin:
         sys.stdout.write(str(node) + "\t" + line) # (doesn't need newline)
 
     # else line starts with '+' and it's contrib info; grab it
-    else:
+    elif line[0] == '+':
         # decode (unescape) and un-pickle the line
         line = line.decode('string-escape')
         info = pickle.loads(line[1:])
@@ -33,6 +33,9 @@ for line in sys.stdin:
         else:
             # initialize node's pagerank entry in {result}
             result[node] = contrib
+    else:
+        #pussy
+        pass
 
 # loop over every node with pagerank and emit it
 for node in result.keys():

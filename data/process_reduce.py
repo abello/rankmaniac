@@ -49,7 +49,7 @@ def main():
             adjacency[node] = (iteration + 1, node, rank_curr, outLinks)
 
         # else line starts with '+' & it's contrib info; grab it for processing
-        else:
+        elif line[0] == '+':
             
             # decode (unescape) and un-pickle the line
             line = line.decode('string-escape')
@@ -78,6 +78,9 @@ def main():
 
                     # update the threshold value to the new smallest-pr-in-heap
                     threshold_pr, _ = h.nsmallest(1, result_heap)[0]
+        else:
+            #pussy
+            pass
 
     # if not every iteration has run yet
     if iteration != MAX_ITER:

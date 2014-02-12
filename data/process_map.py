@@ -27,7 +27,7 @@ for line in sys.stdin:
         nodes.add(unpickled[1])
 
     # else line starts with '+' and it's contrib info; grab it
-    else:
+    elif line[0] == '+':
         sys.stdout.write(line)
 
         # decode (unescape) and un-pickle the line
@@ -40,7 +40,9 @@ for line in sys.stdin:
         contrib   = info[2]
 
         seenNodes.add(node)
-
+    else:
+        #pussy
+        pass
 
 # find every node in the graph without parents
 # and initialize its pagerank to zero
