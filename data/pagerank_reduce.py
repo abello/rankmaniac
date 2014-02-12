@@ -14,7 +14,7 @@ for line in sys.stdin:
  
     # if line starts with '_' it's adj info; pass it along as is
     if line[0] == '_':
-        sys.stdout.write(line) # (doesn't need newline)
+        sys.stdout.write(str(node) + "\t" + line) # (doesn't need newline)
 
     # else line starts with '+' and it's contrib info; grab it
     else:
@@ -39,5 +39,5 @@ for node in result.keys():
     # (node, rank) pair lines start with a '+'
     out = '+' + pickle.dumps((iteration, node, ALPHA * result[node]  + (1 - ALPHA)
 ))
-    out = out.encode('string-escape')
+    out = str(node) + "\t" + out.encode('string-escape')
     print out # (needs newline)
