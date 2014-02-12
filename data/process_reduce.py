@@ -89,6 +89,7 @@ def main():
             a = adjacency[n]
             out = pickle.dumps((a[0], a[1], pageRanks[n], a[2], a[3]))
             out = out.encode('string-escape')
+            out = str(a[1]) + '\t' + out
             print out # (newline required)
 
     # else if the last iteration has finished running
