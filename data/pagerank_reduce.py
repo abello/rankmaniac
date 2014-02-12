@@ -5,6 +5,7 @@ import numpy as np
 import cPickle as pickle
 
 result = {} # dictionary will hold pairs of {node: sum_pagerank_of_node}
+ALPHA = 0.85
 
 # read a line of input
 for line in sys.stdin:
@@ -36,6 +37,7 @@ for line in sys.stdin:
 # loop over every node with pagerank and emit it
 for node in result.keys():
     # (node, rank) pair lines start with a '+'
-    out = '+' + pickle.dumps((iteration, node, result[node]))
+    out = '+' + pickle.dumps((iteration, node, ALPHA * result[node]  + (1 - ALPHA)
+))
     out = out.encode('string-escape')
     print out # (needs newline)
