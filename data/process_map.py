@@ -17,7 +17,7 @@ for line in sys.stdin:
     # node so that at the end we'll have a full list of nodes - INCLUDING nodes
     # that do not have any parents!
     if line[0] == '_':
-        sys.stdout.write(line) # (doesn't need newline)
+        sys.stdout.write('adj\t' + line) # (doesn't need newline)
 
         # decode (unescape) and un-pickle the line
         line = line.decode('string-escape')
