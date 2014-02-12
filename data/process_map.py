@@ -41,7 +41,7 @@ for line in sys.stdin:
 
         seenNodes.add(node)
     else:
-        #pussy
+        #victor
         pass
 
 # find every node in the graph without parents

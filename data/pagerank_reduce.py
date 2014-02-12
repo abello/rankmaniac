@@ -34,7 +34,7 @@ for line in sys.stdin:
             # initialize node's pagerank entry in {result}
             result[node] = contrib
     else:
-        #pussy
+        #victor
         pass
 
 # loop over every node with pagerank and emit it

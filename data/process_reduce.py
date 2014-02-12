@@ -79,7 +79,7 @@ def main():
                     # update the threshold value to the new smallest-pr-in-heap
                     threshold_pr, _ = h.nsmallest(1, result_heap)[0]
         else:
-            #pussy
+            #victor
             pass
 
     # if not every iteration has run yet
