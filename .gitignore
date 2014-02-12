@@ -2,5 +2,6 @@ boto/*
 *.pyc
 data/output.txt
 data/input.txt
+input.txt
 boto/*
 boto/
