@@ -5,7 +5,8 @@ import heapq as h
 import numpy as np
 import cPickle as pickle
 
-MAX_ITER = 12 # maximum number of iterations of pagerank mapreduce to run
+# 12 gives correct results for local graph
+MAX_ITER = 14 # maximum number of iterations of pagerank mapreduce to run
 
 def main():
     adjacency = {}   # dict records node information and graph structure
