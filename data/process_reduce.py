@@ -6,6 +6,7 @@ import numpy as np
 import cPickle as pickle
 
 # 12 gives correct results for local graph
+# TODO: Dynamically figure this out
 MAX_ITER = 14 # maximum number of iterations of pagerank mapreduce to run
 
 def main():
