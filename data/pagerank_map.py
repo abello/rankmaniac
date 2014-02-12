@@ -20,115 +20,101 @@ def firstIteration(firstLine):
             we need to preserve all adjacency information).
     '''
 
+    iteration = 0
 
-    # Each input line will be formatted like the following example
-    #   NodeId:0\t1.0,0.0,83,212,302...
-    # Mapping of values:
-    #   0                   node id
-    #   1.0                 current pagerank
-    #   0.0                 previous pagerank
-    #   83, 212, 302, ...   children ids
+    # Each input line will be formatted as:
+    # NodeId:node \t rank_curr,rank_prev,c,h,i,l,d,r,e,n
 
-    
-    # break up line into manageable chunks
+    # break up first line into manageable chunks
     key, value = firstLine.split('\t')
     values = value.split(',')
 
     # save elements from strings
-    iteration = 0
-    node      = int(values[0][7:])
+    node      = key[7:]
     rank_curr = float(values[0])
     rank_prev = float(values[1])
-    outLinks  = np.array([int(x) for x in values[2:]])
+    outLinks  = np.array(values[2:])
 
     # if current node has one or more children, split its pagerank equally
     # and distribute to each of them:
     if len(outLinks) > 0:
-        contrib = float(rank_curr) / len(outLinks)
+        contrib = rank_curr / len(outLinks)
         for child in outLinks:
             # (node, rank) pair lines start with a '+'
-            result = '+:' + str(child) + '\t' + str(iteration) + ':' + str(contrib)
-            print result # (needs newline)
+            result = '+:' + child + '\t' + str(iteration) + ':' + str(contrib)
+            print result
 
     # else if current node has no children, keep its pagerank in a block and
     # assign it to itself:
     else:
         # (node, rank) pair lines start with a '+'
-        result = '+:' + str(node) + '\t' + str(iteration) + ':' + str(rank_curr)
-        print result # (needs newline)
+        result = '+:' + node + '\t' + str(iteration) + ':' + str(rank_curr)
+        print result
 
     # make a record of this node, its rank(s), and its children, in order to
     # pass on the structure of the graph as many times as the function runs.
     # adjacency information lines start with a '_'
-    adj = ('_:' + str(node) + '\t' + str(iteration) + ':' + str(rank_curr) +
-           ':' + str(rank_prev) + ':' + ':'.join([str(x) for x in outLinks]) )
-    print adj # (needs newline)
+    adj = ('_:' + node + '\t' + str(iteration) + ':' + str(rank_curr) + ':' + 
+           str(rank_prev) + ':' + ':'.join(outLinks))
+    print adj
 
 
+    # get line of input
     for line in sys.stdin:
 
-        # Each input line will be formatted like the following example
-        #   NodeId:0\t1.0,0.0,83,212,302...
-        # Mapping of values:
-        #   0                   node id
-        #   1.0                 current pagerank
-        #   0.0                 previous pagerank
-        #   83, 212, 302, ...   children ids
+        iteration = 0
 
-        # TODO: Is a 0 initial pagerank optimal?
-        
+        # Each input line will be formatted as:
+        # NodeId:node \t rank_curr,rank_prev,c,h,i,l,d,r,e,n
+
         # break up line into manageable chunks
-        split_line = line.split()
-        attributes = split_line[1].split(',')
+        key, value = line.split('\t')
+        values = value.split(',')
 
         # save elements from strings
-        iteration = 0
-        node      = int(split_line[0][7:])
-        rank_curr = float(attributes[0])
-        rank_prev = float(attributes[1])
-        outLinks  = np.array([int(x) for x in attributes[2:]])
+        node      = key[7:]
+        rank_curr = float(values[0])
+        rank_prev = float(values[1])
+        outLinks  = np.array(values[2:])
 
         # if current node has one or more children, split its pagerank equally
         # and distribute to each of them:
         if len(outLinks) > 0:
-            contrib = float(rank_curr) / len(outLinks)
+            contrib = rank_curr / len(outLinks)
             for child in outLinks:
                 # (node, rank) pair lines start with a '+'
-                result = '+:' + str(child) + '\t' + str(iteration) + ':' + str(contrib)
-                print result # (needs newline)
+                result = '+:' + child + '\t' + str(iteration) + ':' + str(contrib)
+                print result
 
         # else if current node has no children, keep its pagerank in a block and
         # assign it to itself:
         else:
             # (node, rank) pair lines start with a '+'
-            result = '+:' + str(node) + '\t' + str(iteration) + ':' + str(rank_curr)
-            print result # (needs newline)
+            result = '+:' + node + '\t' + str(iteration) + ':' + str(rank_curr)
+            print result
 
         # make a record of this node, its rank(s), and its children, in order to
         # pass on the structure of the graph as many times as the function runs.
         # adjacency information lines start with a '_'
-        adj = ('_:' + str(node) + '\t' + str(iteration) + ':' + str(rank_curr) +
-           ':' + str(rank_prev) + ':' + ':'.join([str(x) for x in outLinks]) )
-        print adj # (needs newline)
+        adj = ('_:' + node + '\t' + str(iteration) + ':' + str(rank_curr) + ':' + 
+               str(rank_prev) + ':' + ':'.join(outLinks))
+        print adj
 
 
 
 def midIteration(firstLine):
     '''
-    This runs on evey iteration of the computation BUT the first.  Because of
-    this, it's designed to parse custom pickled lines gotten from sys.stdin.  It 
-    also outputs pickled strings.  NOTE: the output strings are formatted
-    slightly differently; input strings don't have '_' and '+' prepended chars,
-    and they are only adjacency lines - not contribution lines.
+    This runs on every iteration of the computation but the first. Because of
+    this, it's designed to parse formatted lines from an input.txt file using
+    the sys.stdin buffer. It outputs two kinds of strings:
 
-    There are two kinds of pickled output strings:
-        Of the form "+" + pickledString:
-            These contain [iter, child, contrib] np.arrays.  There is one line
-            for every time a given parent contributes rank to a given child.
-        Of the form "_" + pickledString:
-            These contain [iter, node, rank_curr, rank_prev, [children]]
-            np.arrays.  There is one line for every line in the original
-            input.txt (because we need to preserve all adjacency information).
+        Of the form "+:node\titeration:contribution"
+            There is one line for every time a given parent contributes rank to
+            a given node.
+            
+        Of the form "_:node\titeration:rank_curr:rank_prev:c:h:i:l:d:r:e:n"
+            There is one line for every line in the original input.txt (because
+            we need to preserve all adjacency information).
     '''
 
     # Each input line will be formatted like the following example:
