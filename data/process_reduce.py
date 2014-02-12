@@ -24,9 +24,6 @@ def main():
 
     # get a line of input
     for line in sys.stdin:
-        index = line.find('\t')
-        line = line[index+1:]
-
 
         # if line starts with '_' it's adj info; grab it and store the data in
         # our adjacency dictionary.
