@@ -9,15 +9,15 @@ seenNodes = set() # set of nodes we already have shits of
 nodes = set() # set will hold ALL node id's (even those without parents)
 
 # read a line of input
-for line in sys.stdin:
-    index = line.find('\t')
-    line = line[index+1:]
+for orig_line in sys.stdin:
+    index = orig_line.find('\t')
+    line = orig_line[index+1:]
 
     # if line starts with '_' it's adj info; pass it along but also save its 
     # node so that at the end we'll have a full list of nodes - INCLUDING nodes
     # that do not have any parents!
     if line[0] == '_':
-        sys.stdout.write('adj\t' + line) # (doesn't need newline)
+        sys.stdout.write(orig_line) # (doesn't need newline)
 
         # decode (unescape) and un-pickle the line
         line = line.decode('string-escape')
@@ -28,7 +28,7 @@ for line in sys.stdin:
 
     # else line starts with '+' and it's contrib info; grab it
     elif line[0] == '+':
-        sys.stdout.write(line)
+        sys.stdout.write(orig_line)
 
         # decode (unescape) and un-pickle the line
         line = line.decode('string-escape')
@@ -50,5 +50,7 @@ for n in nodes:
     if n not in seenNodes:
         out = '+' + pickle.dumps([iteration, n, 1 - ALPHA])
         out = out.encode('string-escape')
+        out = str(n) + '\t' + out
+
         print out # (newline needed)
 

@@ -7,7 +7,7 @@ import cPickle as pickle
 
 # 12 gives correct results for local graph
 # TODO: Dynamically figure this out
-MAX_ITER = 14 # maximum number of iterations of pagerank mapreduce to run
+MAX_ITER = 2 # maximum number of iterations of pagerank mapreduce to run
 
 def main():
 
@@ -74,7 +74,8 @@ def main():
 
                     # remove smallest-pr-from-the heap and push the new pr into
                     # it (note that size of heap is maintained)
-                    h.heappushpop(result_heap, (pr, node))
+                    h.heappush(result_heap, (pr, node))
+                    h.heappop(result_heap)
 
                     # update the threshold value to the new smallest-pr-in-heap
                     threshold_pr, _ = h.nsmallest(1, result_heap)[0]
