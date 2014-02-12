@@ -50,6 +50,7 @@ def firstIteration(firstLine):
             # (node, rank) pair lines start with a '+'
             result = '+' + pickle.dumps((iteration, child, contrib))
             result = result.encode('string-escape')
+            result = str(child) + '\t' + result
             print result # (needs newline)
 
     # else if current node has no children, keep its pagerank in a block and
@@ -58,6 +59,7 @@ def firstIteration(firstLine):
         # (node, rank) pair lines start with a '+'
         result = '+' + pickle.dumps((iteration, node, rank_curr))
         result = result.encode('string-escape')
+        result = str(node) + '\t' + result
         print result # (needs newline)
 
     # make a record of this node, its rank(s), and its children, in order to
@@ -65,6 +67,7 @@ def firstIteration(firstLine):
     # adjacency information lines start with a '_'
     adj = '_' + pickle.dumps((iteration, node, rank_curr, rank_prev, outLinks))
     adj = adj.encode('string-escape')
+    adj = 'adj\t' + adj
     print adj # (needs newline)
 
 
@@ -99,6 +102,7 @@ def firstIteration(firstLine):
                 # (node, rank) pair lines start with a '+'
                 result = '+' + pickle.dumps((iteration, child, contrib))
                 result = result.encode('string-escape')
+                result = str(child) + '\t' + result
                 print result # (needs newline)
 
         # else if current node has no children, keep its pagerank in a block and
@@ -107,6 +111,7 @@ def firstIteration(firstLine):
             # (node, rank) pair lines start with a '+'
             result = '+' + pickle.dumps((iteration, node, rank_curr))
             result = result.encode('string-escape')
+            result = str(node) + '\t' + result
             print result # (needs newline)
 
         # make a record of this node, its rank(s), and its children, in order to
@@ -114,6 +119,7 @@ def firstIteration(firstLine):
         # adjacency information lines start with a '_'
         adj = '_' + pickle.dumps((iteration, node, rank_curr, rank_prev, outLinks))
         adj = adj.encode('string-escape')
+        adj = 'adj\t' + adj
         print adj # (needs newline)
 
 
@@ -158,6 +164,7 @@ def midIteration(firstLine):
             # (node, rank) pair lines start with a '+'
             result = '+' + pickle.dumps((iteration, link, contrib))
             result = result.encode('string-escape')
+            result = str(link) + '\t' + result
             print result # (needs newline)
 
     # else if current node has no children, keep its pagerank in a block and
@@ -166,6 +173,7 @@ def midIteration(firstLine):
         # (node, rank) pair lines start with a '+'
         result = '+' + pickle.dumps((iteration, node, rank_curr))
         result = result.encode('string-escape')
+        result = str(node) + '\t' + result
         print result # (needs newline)
 
     # make a record of this node, its rank(s), and its children, in order to
@@ -173,6 +181,7 @@ def midIteration(firstLine):
     # adjacency information lines start with a '_'
     adj = '_' + firstLine.decode('string-escape')[:-1]
     adj = adj.encode('string-escape')
+    adj = 'adj\t' + adj
     print adj # (needs newline)
 
     for line in sys.stdin:
@@ -198,6 +207,7 @@ def midIteration(firstLine):
                 # (node, rank) pair lines start with a '+'
                 result = '+' + pickle.dumps((iteration, link, contrib))
                 result = result.encode('string-escape')
+                result = str(link) + '\t' + result
                 print result # (needs newline)
 
         # else if current node has no children, keep its pagerank in a block and
@@ -206,6 +216,7 @@ def midIteration(firstLine):
             # (node, rank) pair lines start with a '+'
             result = '+' + pickle.dumps((iteration, node, rank_curr))
             result = result.encode('string-escape')
+            result = str(node) + '\t' + result
             print result # (needs newline)
 
         # make a record of this node, its rank(s), and its children, in order to
@@ -213,6 +224,7 @@ def midIteration(firstLine):
         # adjacency information lines start with a '_'
         adj = '_' + line.decode('string-escape')[:-1]
         adj = adj.encode('string-escape')
+        adj = 'adj\t' + adj
         print adj # (needs newline)
 
 
