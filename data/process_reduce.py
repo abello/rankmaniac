@@ -42,8 +42,9 @@ def main():
             values     = value.split(',')
 
             # save information of this node
-            node = key[1:]
-            iteration, pr = values
+            node      = key[1:]
+            iteration = int(values[0])
+            pr        = float(values[1])
 
             # if this isn't the last iteration
             if iteration != MAX_ITER:
@@ -122,6 +123,8 @@ def main():
         finalRanks = ''
         for i in range(20):
             pr, node = top_prs[i]
+            sys.stderr.write('pagerank: ' + str(pr) + '\n')
+            sys.stderr.write('node id:  ' + str(node) + '\n')
             finalRanks += ('FinalRank:' + str(pr) + '\t' + str(node) + '\n')
 
         # send the final result to the output
