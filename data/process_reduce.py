@@ -100,7 +100,7 @@ def main():
         # For every node in the graph, emit its adj info.  The new rank_curr is
         # retrieved from our pageRanks dict, and the old rank_curr replaces the
         # old rank_prev.
-        for node in adjacency.keys():
+        for node in adjacency:
 
             try:
                 rank_curr = pageRanks[node]

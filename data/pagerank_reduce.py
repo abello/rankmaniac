@@ -32,7 +32,7 @@ for line in sys.stdin:
         iteration, contrib = values
 
         # ititialize or increment this node's rank in results dictionary
-        if n not in result.keys():
+        if n not in result:
             result[n] = float(contrib)
         else:
             result[n] += float(contrib)
@@ -51,7 +51,7 @@ for line in sys.stdin:
 # DOESN'T INCLUDE
 #   nodes without parents but with children
 
-for node in result.keys():
+for node in result:
 
     # calculate and emit the ALPHA scaled rank
     rank = (ALPHA*result[node]) + (1-ALPHA)
