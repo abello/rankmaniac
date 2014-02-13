@@ -40,7 +40,10 @@ def main():
                 continue
             node      = int(info[1])
             rank_curr = float(info[2])
-            outLinks  = np.array([int(x) for x in info[4:]])
+            if len(info) < 4:
+                outLinks  = np.array([int(x) for x in info[4:]])
+            else:
+                outLinks = np.array([])
             
             # record node info in adjacency dictionary
             adjacency[node] = (iteration + 1, node, rank_curr, outLinks)
