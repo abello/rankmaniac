@@ -9,14 +9,15 @@ cp input.txt input2.txt
 input='input2.txt'
 output='output.txt'
 
-while [ $i -lt $stop ]
-do
+while [ $i -lt $stop ]; do
+#for i in {0..$stop}; do
     python pagerank_map.py < $input | sort | python pagerank_reduce.py | python process_map.py | sort | python process_reduce.py > $output
 
 
     # Swap input with output, to go to next iter
     rm input2.txt
     cp output.txt input2.txt
+    cp output.txt intermediate$i.txt
     
     echo $i
     let i=i+1
