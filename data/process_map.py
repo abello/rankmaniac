@@ -3,14 +3,11 @@
 import sys
 
 '''
-Format of INPUT contribution lines:
-    +node \t iteration,contrib
+Format of INPUT and OUTPUT rank lines:
+    +node \t iteration,rank
 
 Format of INPUT and OUTPUT adjacency lines:
     _node \t iteration,rank_curr,rank_prev,c,h,i,l,d,r,e,n
-
-Format of OUTPUT rank lines:
-    +node \t iteration,rank
 '''
 
 ALPHA = 0.85
