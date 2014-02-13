@@ -17,7 +17,6 @@ while [ $i -lt $stop ]; do
     # Swap input with output, to go to next iter
     rm input2.txt
     cp output.txt input2.txt
-    cp output.txt intermediate$i.txt
     
     echo $i
     let i=i+1
