@@ -1,44 +1,59 @@
 #!/usr/bin/env python
 
 import sys
-import numpy as np
-import cPickle as pickle
+#import numpy as np
+#import cPickle as pickle
 
-result = {} # dictionary will hold pairs of {node: sum_pagerank_of_node}
+'''
+Format of INPUT contribution lines:
+    +node \t iteration,contrib
+
+Format of INPUT and OUTPUT adjacency lines:
+    _node \t iteration,rank_curr,rank_prev,c,h,i,l,d,r,e,n
+
+Format of OUTPUT rank lines:
+    +node \t iteration,rank
+'''
+
 ALPHA = 0.85
 
-# read a line of input
+# dictionary will hold {node: sum_pagerank_of_node}
+result = {} 
+
 for line in sys.stdin:
-    line = line.split()[1]
- 
-    # if line starts with '_' it's adj info; pass it along as is
-    if line[0] == '_':
-        sys.stdout.write("adj\t" + line + '\n')
 
-    # else line starts with '+' and it's contrib info; grab it
-    elif line[0] == '+':
-        info = line[1:].split(',')
+    # case for contribution line
+    if line[0] == '+':
 
-        # save each value the line holds
-        iteration = int(info[0])
-        node      = int(info[1])
-        contrib   = float(info[2])
+        # break up input into key and value
+        key, value = line.split()
+        values = value.split(',')
 
-        if node in result.keys():
-            # increment node's pagerank in {result} with another contribution
-            result[node] += contrib
-        else:
-            # initialize node's pagerank entry in {result}
-            result[node] = contrib
+        # save information of this node
+        n = key[1:]
+        iteration, contrib = values
+
+        # ititialize or increment this node's rank in results dictionary
+        result[n] = contrib if n not in result.keys() else result[n] + contrib
+
+    # case for adjacency line
+    elif line[0] == '_':
+
+        # pass the line right along to output
+        sys.stdout.write(line)
+
+    # case for unknown line
     else:
-        #victor
+
+        # make a note in the error log and continue
         sys.stderr.write("elsecase pagerank_reduce\n")
         pass
 
-# loop over every node with pagerank and emit it
-for node in result.keys():
-    # (node, rank) pair lines start with a '+'
-    rank = ALPHA * result[node] + (1 - ALPHA)
-    out = str(node) + '\t+' + str(iteration) + ',' + str(node) + ',' + str(rank)
-    print out # (needs newline)
 
+# loop over every node with pagerank (should be all nodes)
+for node in result.keys():
+
+    # calculate and emit the ALPHA scaled rank
+    rank = ALPHA * result[node] + (1 - ALPHA)
+    out = node + '\t' + str(iteration) + ',' + rank
+    print out

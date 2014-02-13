@@ -2,8 +2,8 @@
 
 
 import sys
-import numpy as np
-import cPickle as pickle
+#import numpy as np
+#import cPickle as pickle
 
 def firstIteration(firstLine):
     '''
@@ -22,7 +22,7 @@ def firstIteration(firstLine):
     #----------------------#
 
     # break up input into key and value
-    key, value = firstLine.split('\t')
+    key, value = firstLine.split()
     values     = value.split(',')
 
     # save information of this node
@@ -61,7 +61,7 @@ def firstIteration(firstLine):
     for line in sys.stdin:
         
         # break up input into key and value
-        key, value = line.split('\t')
+        key, value = line.split()
         values     = value.split(',')
 
         # save information of this node
@@ -112,7 +112,7 @@ def midIteration(firstLine):
     #----------------------#
 
     # break up input into key and value
-    key, value = firstLine.split('\t')
+    key, value = firstLine.split()
     values     = value.split(',')
 
     # save information of this node
@@ -151,7 +151,7 @@ def midIteration(firstLine):
     for line in sys.stdin:
         
         # break up input into key and value
-        key, value = line.split('\t')
+        key, value = line.split()
         values     = value.split(',')
 
         # save information of this node
