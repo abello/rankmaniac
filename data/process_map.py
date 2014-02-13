@@ -1,12 +1,23 @@
 #!/usr/bin/env python
 
 import sys
-import cPickle as pickle
+#import cPickle as pickle
+
+'''
+Format of INPUT contribution lines:
+    +node \t iteration,contrib
+
+Format of INPUT and OUTPUT adjacency lines:
+    _node \t iteration,rank_curr,rank_prev,c,h,i,l,d,r,e,n
+
+Format of OUTPUT rank lines:
+    +node \t iteration,rank
+'''
 
 ALPHA = 0.85
 
-seenNodes = set() # set of nodes we already have shits of
-nodes = set() # set will hold ALL node id's (even those without parents)
+seenNodes = set() # nodes we already have shits of
+nodes     = set() # all nodes (even those without parents)
 
 # read a line of input
 for orig_line in sys.stdin:

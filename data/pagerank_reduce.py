@@ -50,7 +50,13 @@ for line in sys.stdin:
         pass
 
 
-# loop over every node with pagerank (should be all nodes)
+# loop over every node that was given pagerank
+# INCLUDES
+#   nodes with parents
+#   nodes without children
+# DOESN'T INCLUDE
+#   nodes without parents but with children
+
 for node in result.keys():
 
     # calculate and emit the ALPHA scaled rank
