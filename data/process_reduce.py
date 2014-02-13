@@ -1,11 +1,11 @@
-#!/usr/bin/env python2.5
+#!/usr/bin/env python
 
 import sys
 import heapq as h
 
 # 12 gives correct results for local graph
 # TODO: Dynamically figure this out
-MAX_ITER = 15 # maximum number of iterations of pagerank mapreduce to run
+MAX_ITER = 18 # maximum number of iterations of pagerank mapreduce to run
 ALPHA = 0.85
 
 def main():
