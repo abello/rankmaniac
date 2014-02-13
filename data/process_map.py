@@ -52,5 +52,4 @@ for line in sys.stdin:
 # TODO this loop is fucking expensive you know
 for node in allNodes.difference(seenNodes):
     # emit a line giving this node (1-ALPHA) rank
-    out = '+' + node + '\t' + str(iteration) + ',' + str(1 - ALPHA)
-    print out
+    print '+' + node + '\t' + str(iteration) + ',' + str(1 - ALPHA)

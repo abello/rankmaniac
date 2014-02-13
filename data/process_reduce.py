@@ -102,13 +102,12 @@ def main():
             outLinks[:] = [x for x in outLinks if x != '']
 
             if len(outLinks) == 0:
-                out = ('_' + node + '\t' + str(iteration) + ',' + str(rank_curr) +
+                print ('_' + node + '\t' + str(iteration) + ',' + str(rank_curr) +
                       ',' + str(rank_prev))
             else:
-                out = ('_' + node + '\t' + str(iteration) + ',' + str(rank_curr) +
+                print ('_' + node + '\t' + str(iteration) + ',' + str(rank_curr) +
                       ',' + str(rank_prev) + ',' + ','.join(outLinks))
 
-            print out
 
     # else the last iteration has completed
     else:
