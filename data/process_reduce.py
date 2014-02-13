@@ -3,11 +3,10 @@
 import sys
 import heapq as h
 import numpy as np
-import cPickle as pickle
 
 # 12 gives correct results for local graph
 # TODO: Dynamically figure this out
-MAX_ITER = 1 # maximum number of iterations of pagerank mapreduce to run
+MAX_ITER = 14 # maximum number of iterations of pagerank mapreduce to run
 
 def main():
 
@@ -47,7 +46,8 @@ def main():
             adjacency[node] = (iteration + 1, node, rank_curr, outLinks)
 
         # else line starts with '+' & it's contrib info; grab it for processing
-        elif line[0] == '+':
+        else:
+#elif line[0] == '+':
             
             # decode (unescape) and un-pickle the line
             info = line[1:].split(',')
@@ -75,9 +75,6 @@ def main():
 
                     # update the threshold value to the new smallest-pr-in-heap
                     threshold_pr, _ = h.nsmallest(1, result_heap)[0]
-        else:
-            #victor
-            print "elsecase processreduce: " + line
 
     # if not every iteration has run yet
     if iteration != MAX_ITER:

@@ -3,7 +3,6 @@
 
 import sys
 import numpy as np
-import cPickle as pickle
 
 def firstIteration(firstLine):
     '''
@@ -48,23 +47,23 @@ def firstIteration(firstLine):
         contrib = float(rank_curr) / len(outLinks)
         for child in outLinks:
             # (node, rank) pair lines start with a '+'
-            result = str(child) + '\t' + '+' + str(iteration) + ',' + str(child) + ',' + str(contrib)
-            print result # (needs newline)
+            print str(child) + '\t' + '+' + str(iteration) + ',' + str(child) + ',' + str(contrib)
+            #print result # (needs newline)
 
     # else if current node has no children, keep its pagerank in a block and
     # assign it to itself:
     else:
         # (node, rank) pair lines start with a '+'
-        result = str(node) + '\t' + '+' + str(iteration) + ',' + str(node) + ',' + str(rank_curr)
-        print result # (needs newline)
+        print str(node) + '\t' + '+' + str(iteration) + ',' + str(node) + ',' + str(rank_curr)
+        #print result # (needs newline)
 
     # make a record of this node, its rank(s), and its children, in order to
     # pass on the structure of the graph as many times as the function runs.
     # adjacency information lines start with a '_'
-    adj = 'adj\t_' + str(iteration) + ',' + str(node) + ',' + str(rank_curr) + ',' + str(rank_prev)
-    for link in outLinks:
-        adj += (',' + str(link))
-    print adj # (needs newline)
+    print 'adj\t_' + str(iteration) + ',' + str(node) + ',' + str(rank_curr) + ',' + str(rank_prev) + ',' + ','.join(attributes[2:])
+#    for link in outLinks:
+#        adj += (',' + str(link))
+#    print adj # (needs newline)
 
 
     for line in sys.stdin:
@@ -96,23 +95,23 @@ def firstIteration(firstLine):
             contrib = float(rank_curr) / len(outLinks)
             for child in outLinks:
                 # (node, rank) pair lines start with a '+'
-                result = str(child) + '\t' + '+' + str(iteration) + ',' + str(child) + ',' + str(contrib)
-                print result # (needs newline)
+                print str(child) + '\t' + '+' + str(iteration) + ',' + str(child) + ',' + str(contrib)
+                #print result # (needs newline)
 
         # else if current node has no children, keep its pagerank in a block and
         # assign it to itself:
         else:
             # (node, rank) pair lines start with a '+'
-            result = str(node) + '\t' + '+' + str(iteration) + ',' + str(node) + ',' + str(rank_curr)
-            print result # (needs newline)
+            print str(node) + '\t' + '+' + str(iteration) + ',' + str(node) + ',' + str(rank_curr)
+            #print result # (needs newline)
 
         # make a record of this node, its rank(s), and its children, in order to
         # pass on the structure of the graph as many times as the function runs.
         # adjacency information lines start with a '_'
-        adj = 'adj\t_' + str(iteration) + ',' + str(node) + ',' + str(rank_curr) + ',' + str(rank_prev)
-        for link in outLinks:
-            adj += (',' + str(link))
-        print adj # (needs newline)
+        print 'adj\t_' + str(iteration) + ',' + str(node) + ',' + str(rank_curr) + ',' + str(rank_prev) + ',' + ','.join(attributes[2:])
+#        for link in outLinks:
+#            adj += (',' + str(link))
+#        print adj # (needs newline)
 
 
 
@@ -138,11 +137,7 @@ def midIteration(firstLine):
     #   np.array[iteration, node, rank_curr, rank_prev, np.array[outLinks]]
 
     # decode (unescape) and un-pickle the line
-    split_line = firstLine.split()
-
-    index = firstLine.find('\t')
-    key = split_line[0]
-    attributes = split_line[1].split(',')
+    attributes = firstLine.split()[1].split(',')
 
     # save each value the line holds
     iteration = int(attributes[0])
@@ -157,33 +152,29 @@ def midIteration(firstLine):
         contrib = (float(rank_curr)/len(outLinks))
         for link in outLinks:
             # (node, rank) pair lines start with a '+'
-            result = str(link) + '\t' + '+' + str(iteration) + ',' + str(link) + ',' + str(contrib)
-            print result # (needs newline)
+            print str(link) + '\t' + '+' + str(iteration) + ',' + str(link) + ',' + str(contrib)
+#print result # (needs newline)
 
     # else if current node has no children, keep its pagerank in a block and
     # assign it to itself:
     else:
         # (node, rank) pair lines start with a '+'
-        result = str(node) + '\t' + '+' + str(iteration) + ',' + str(node) + ',' + str(rank_curr)
-        print result # (needs newline)
+        print str(node) + '\t' + '+' + str(iteration) + ',' + str(node) + ',' + str(rank_curr)
+        #print result # (needs newline)
 
     # make a record of this node, its rank(s), and its children, in order to
     # pass on the structure of the graph as many times as the function runs.
     # adjacency information lines start with a '_'
-    adj = 'adj\t_' + str(iteration) + ',' + str(node) + ',' + str(rank_curr) + ',' + str(rank_prev)
-    for link in outLinks:
-        adj += (',' + str(link))
-    print adj # (needs newline)
+    print 'adj\t_' + str(iteration) + ',' + str(node) + ',' + str(rank_curr) + ',' + str(rank_prev) + ',' + ','.join(attributes[4:])
+#    for link in outLinks:
+#        adj += (',' + str(link))
+#    print adj # (needs newline)
 
     for line in sys.stdin:
         # Each input line will be formatted like the following example:
         #   np.array[iteration, node, rank_curr, rank_prev, np.array[outLinks]]
 
-        split_line = firstLine.split()
-
-        index = firstLine.find('\t')
-        key = split_line[0]
-        attributes = split_line[1].split(',')
+        attributes = line.split()[1].split(',')
 
         # save each value the line holds
         iteration = int(attributes[0])
@@ -198,23 +189,21 @@ def midIteration(firstLine):
             contrib = (float(rank_curr)/len(outLinks))
             for link in outLinks:
                 # (node, rank) pair lines start with a '+'
-                result = str(link) + '\t' + '+' + str(iteration) + ',' + str(link) + ',' + str(contrib)
-                print result # (needs newline)
+                print str(link) + '\t' + '+' + str(iteration) + ',' + str(link) + ',' + str(contrib)
 
         # else if current node has no children, keep its pagerank in a block and
         # assign it to itself:
         else:
             # (node, rank) pair lines start with a '+'
-            result = str(node) + '\t' + '+' + str(iteration) + ',' + str(node) + ',' + str(rank_curr)
-            print result # (needs newline)
+            print str(node) + '\t' + '+' + str(iteration) + ',' + str(node) + ',' + str(rank_curr)
 
         # make a record of this node, its rank(s), and its children, in order to
         # pass on the structure of the graph as many times as the function runs.
         # adjacency information lines start with a '_'
-        adj = 'adj\t_' + str(iteration) + ',' + str(node) + ',' + str(rank_curr) + ',' + str(rank_prev)
-        for link in outLinks:
-            adj += (',' + str(link))
-        print adj # (needs newline)
+        print 'adj\t_' + str(iteration) + ',' + str(node) + ',' + str(rank_curr) + ',' + str(rank_prev) + ',' + ','.join(attributes[4:])
+#        for link in outLinks:
+#            adj += (',' + str(link))
+#        print adj # (needs newline)
 
 
 
@@ -225,4 +214,7 @@ stdin = sys.stdin
 sample = stdin.readline()
 
 # Choose iteration type
-firstIteration(sample) if sample[0]=='N' else midIteration(sample)
+if sample[0] == 'N':
+    firstIteration(sample)
+else:
+    midIteration(sample)

@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import sys
-import cPickle as pickle
 
 ALPHA = 0.85
 
@@ -18,14 +17,14 @@ for orig_line in sys.stdin:
     if line[0] == '_':
         sys.stdout.write(orig_line) # (doesn't need newline)
 
-        # decode (unescape) and un-pickle the line
         info = line[1:].split(',')
 
         # record the node in our set
         nodes.add(int(info[1]))
 
     # else line starts with '+' and it's contrib info; grab it
-    elif line[0] == '+':
+    else:
+#elif line[0] == '+':
         sys.stdout.write(orig_line)
 
         # decode (unescape) and un-pickle the line
@@ -37,15 +36,9 @@ for orig_line in sys.stdin:
         contrib   = float(info[2])
 
         seenNodes.add(node)
-    else:
-        #victor
-        pass
 
 # find every node in the graph without parents
 # and initialize its pagerank to zero
-for n in nodes:
-    if n not in seenNodes:
-        rank = 1.0 - ALPHA
-        out = str(n) + '\t+' + str(iteration) + ',' + str(n) + ',' + str(1.0 - ALPHA)
-        print out # (newline needed)
+for n in (nodes - seenNodes):
+    print str(n) + '\t+' + str(iteration) + ',' + str(n) + ',' + str(1.0 - ALPHA)
 
