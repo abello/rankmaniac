@@ -15,7 +15,7 @@ do
 
 
     # Swap input with output, to go to next iter
-    #rm input2.txt
+    rm input2.txt
     cp output.txt input2.txt
     
     echo $i

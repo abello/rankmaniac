@@ -88,6 +88,7 @@ def main():
 
             # make a note in the error log and continue
             sys.stderr.write("elsecase process_reduce\n")
+            sys.stderr.write('\t' + line + '\n')
             pass
 
 
@@ -106,8 +107,8 @@ def main():
             rank_curr = pageRanks[node]
             iteration, rank_prev, _, outLinks = adjacency[node]
 
-            out = ('_' + node + '\t' + iteration + ',' + rank_curr + ',' +
-                   rank_prev + ',' + ','.join(outLinks))
+            out = ('_' + node + '\t' + str(iteration) + ',' + str(rank_curr) +
+                  ',' + str(rank_prev) + ',' + ','.join(outLinks))
             print out
 
     # else the last iteration has completed
@@ -121,7 +122,7 @@ def main():
         finalRanks = ''
         for i in range(20):
             pr, node = top_prs[i]
-            finalRanks += ('FinalRank:' + str(pr) + '\t' + node + '\n')
+            finalRanks += ('FinalRank:' + str(pr) + '\t' + str(node) + '\n')
 
         # send the final result to the output
         sys.stdout.write(finalRanks)
