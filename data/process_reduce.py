@@ -5,7 +5,8 @@ import heapq as h
 
 # 12 gives correct results for local graph
 # TODO: Dynamically figure this out
-MAX_ITER = 14 # maximum number of iterations of pagerank mapreduce to run
+MAX_ITER = 15 # maximum number of iterations of pagerank mapreduce to run
+ALPHA = 0.85
 
 def main():
     '''
@@ -43,6 +44,11 @@ def main():
 
             # save information of this node
             node      = key[1:]
+#            try:
+#                if int(node) == 48:
+#                    sys.stderr.write('found 48\n')
+#            except:
+#                sys.stderr.write('rekt ' + node)
             iteration = int(values[0])
             pr        = float(values[1])
 
@@ -79,10 +85,7 @@ def main():
             node = key[1:]
             rank_curr = float(values[1])
             rank_prev = float(values[2])
-            if values[3:] == ['']:
-                outLinks == []
-            else:
-                outLinks  = values[3:]
+            outLinks  = values[3:]
 
             # record node in adjacency dictionary
             adjacency[node] = (iteration+1, rank_curr, rank_prev, outLinks)            
@@ -91,8 +94,8 @@ def main():
         else:
 
             # make a note in the error log and continue
-            sys.stderr.write("elsecase process_reduce\n")
-            sys.stderr.write('\t' + line + '\n')
+#sys.stderr.write("elsecase process_reduce\n")
+#sys.stderr.write('\t' + line + '\n')
             pass
 
 
@@ -108,11 +111,23 @@ def main():
         # old rank_prev.
         for node in adjacency.keys():
 
-            rank_curr = pageRanks[node]
+            try:
+                rank_curr = pageRanks[node]
+            except:
+                pageRanks[node] = 1.0 - ALPHA
+                rank_curr = 1.0 - ALPHA
+#sys.stderr.write('lolz\n')
             iteration, rank_prev, _, outLinks = adjacency[node]
 
-            out = ('_' + node + '\t' + str(iteration) + ',' + str(rank_curr) +
-                  ',' + str(rank_prev) + ',' + ','.join(outLinks))
+            outLinks[:] = [x for x in outLinks if x != '']
+
+            if len(outLinks) == 0:
+                out = ('_' + node + '\t' + str(iteration) + ',' + str(rank_curr) +
+                      ',' + str(rank_prev))
+            else:
+                out = ('_' + node + '\t' + str(iteration) + ',' + str(rank_curr) +
+                      ',' + str(rank_prev) + ',' + ','.join(outLinks))
+
             print out
 
     # else the last iteration has completed
@@ -126,8 +141,8 @@ def main():
         finalRanks = ''
         for i in range(20):
             pr, node = top_prs[i]
-            sys.stderr.write('pagerank: ' + str(pr) + '\n')
-            sys.stderr.write('node id:  ' + str(node) + '\n')
+            #sys.stderr.write('pagerank: ' + str(pr) + '\n')
+            #sys.stderr.write('node id:  ' + str(node) + '\n')
             finalRanks += ('FinalRank:' + str(pr) + '\t' + str(node) + '\n')
 
         # send the final result to the output
