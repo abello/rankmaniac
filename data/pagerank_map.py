@@ -28,8 +28,8 @@ def firstIteration(firstLine):
     iteration = 0
     rank_curr = float(values[0])
     rank_prev = float(values[1])
-    if values[0] == '':
-        outLinks == []
+    if values[2] == '':
+        outLinks = []
     else:
         outLinks  = values[2:]
 
@@ -71,8 +71,8 @@ def firstIteration(firstLine):
         iteration = 0
         rank_curr = float(values[0])
         rank_prev = float(values[1])
-        if values[0] == '':
-            outLinks == []
+        if values[2] == '':
+            outLinks = []
         else:
             outLinks  = values[2:]
 
@@ -125,8 +125,8 @@ def midIteration(firstLine):
     iteration  = int(values[0])
     rank_curr  = float(values[1])
     rank_prev  = float(values[2])
-    if values[0] == '':
-        outLinks == []
+    if values[3] == '':
+        outLinks = []
     else:
         outLinks  = values[3:]
 
@@ -167,8 +167,8 @@ def midIteration(firstLine):
         iteration  = int(values[0])
         rank_curr  = float(values[1])
         rank_prev  = float(values[2])
-        if values[0] == '':
-            outLinks == []
+        if values[3] == '':
+            outLinks = []
         else:
             outLinks  = values[3:]
 
