@@ -39,20 +39,20 @@ def firstIteration(firstLine):
         contrib = rank_curr / len(outLinks)
         for child in outLinks:
             # +child \t iteration,contrib
-            result = '+' + child + '\t' + str(iteration) + ',' + str(contrib)
+            result = '+' + child + '\t' + `iteration` + ',' + `contrib`
             print result
 
     # else if current node has no children, keep its pagerank in a block and
     # assign it to itself:
     else:
         # +node \t iteration,rank_curr
-        result = '+' + node + '\t' + str(iteration) + ',' + str(rank_curr)
+        result = '+' + node + '\t' + `iteration` + ',' + `rank_curr`
         print result
 
     # print a line passing along adj information
     # _node \t iteration,rank_curr,rank_prev,c,h,i,l,d,r,e,n
-    adj = ('_' + node + '\t' + str(iteration) + ',' + str(rank_curr) + ',' +
-           str(rank_prev) + ',' + ','.join(outLinks))
+    adj = ('_' + node + '\t' + `iteration` + ',' + `rank_curr` + ',' +
+           `rank_prev` + ',' + ','.join(outLinks))
     print adj
 
     #---------------------------#
@@ -82,20 +82,20 @@ def firstIteration(firstLine):
             contrib = rank_curr / len(outLinks)
             for child in outLinks:
                 # +child \t iteration,contrib
-                result = '+' + child + '\t' + str(iteration) + ',' + str(contrib)
+                result = '+' + child + '\t' + `iteration` + ',' + `contrib`
                 print result
 
         # else if current node has no children, keep its pagerank in a block and
         # assign it to itself:
         else:
             # +node \t iteration,rank_curr
-            result = '+' + node + '\t' + str(iteration) + ',' + str(rank_curr)
+            result = '+' + node + '\t' + `iteration` + ',' + `rank_curr`
             print result
 
         # print a line passing along adj information
         # _node \t iteration,rank_curr,rank_prev,c,h,i,l,d,r,e,n
-        adj = ('_' + node + '\t' + str(iteration) + ',' + str(rank_curr) + ',' +
-               str(rank_prev) + ',' + ','.join(outLinks))
+        adj = ('_' + node + '\t' + `iteration` + ',' + `rank_curr` + ',' +
+               `rank_prev` + ',' + ','.join(outLinks))
         print adj
 
 
@@ -136,20 +136,20 @@ def midIteration(firstLine):
         contrib = rank_curr / len(outLinks)
         for child in outLinks:
             # +child \t iteration,contrib
-            result = '+' + child + '\t' + str(iteration) + ',' + str(contrib)
+            result = '+' + child + '\t' + `iteration` + ',' + `contrib`
             print result
 
     # else if current node has no children, keep its pagerank in a block and
     # assign it to itself:
     else:
         # +node \t iteration,rank_curr
-        result = '+' + node + '\t' + str(iteration) + ',' + str(rank_curr)
+        result = '+' + node + '\t' + `iteration` + ',' + `rank_curr`
         print result
 
     # print a line passing along adj information
     # _node \t iteration,rank_curr,rank_prev,c,h,i,l,d,r,e,n
-    adj = ('_' + node + '\t' + str(iteration) + ',' + str(rank_curr) + ',' +
-           str(rank_prev) + ',' + ','.join(outLinks))
+    adj = ('_' + node + '\t' + `iteration` + ',' + `rank_curr` + ',' +
+           `rank_prev` + ',' + ','.join(outLinks))
     print adj
 
     #---------------------------#
@@ -178,20 +178,20 @@ def midIteration(firstLine):
             contrib = rank_curr / len(outLinks)
             for child in outLinks:
                 # +child \t iteration,contrib
-                result = '+' + child + '\t' + str(iteration) + ',' + str(contrib)
+                result = '+' + child + '\t' + `iteration` + ',' + `contrib`
                 print result
 
         # else if current node has no children, keep its pagerank in a block and
         # assign it to itself:
         else:
             # +node \t iteration,rank_curr
-            result = '+' + node + '\t' + str(iteration) + ',' + str(rank_curr)
+            result = '+' + node + '\t' + `iteration` + ',' + `rank_curr`
             print result
 
         # print a line passing along adj information
         # _node \t iteration,rank_curr,rank_prev,c,h,i,l,d,r,e,n
-        adj = ('_' + node + '\t' + str(iteration) + ',' + str(rank_curr) + ',' +
-               str(rank_prev) + ',' + ','.join(outLinks))
+        adj = ('_' + node + '\t' + `iteration` + ',' + `rank_curr` + ',' +
+               `rank_prev` + ',' + ','.join(outLinks))
         print adj
 
 
