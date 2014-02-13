@@ -44,11 +44,6 @@ def main():
 
             # save information of this node
             node      = key[1:]
-#            try:
-#                if int(node) == 48:
-#                    sys.stderr.write('found 48\n')
-#            except:
-#                sys.stderr.write('rekt ' + node)
             iteration = int(values[0])
             pr        = float(values[1])
 
@@ -102,12 +97,6 @@ def main():
         # old rank_prev.
         for node in adjacency:
 
-            try:
-                rank_curr = pageRanks[node]
-            except:
-                pageRanks[node] = 1.0 - ALPHA
-                rank_curr = 1.0 - ALPHA
-#sys.stderr.write('lolz\n')
             iteration, rank_prev, _, outLinks = adjacency[node]
 
             outLinks[:] = [x for x in outLinks if x != '']
