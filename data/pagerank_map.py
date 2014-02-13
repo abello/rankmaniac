@@ -2,8 +2,6 @@
 
 
 import sys
-#import numpy as np
-#import cPickle as pickle
 
 def firstIteration(firstLine):
     '''

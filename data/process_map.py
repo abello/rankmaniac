@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import sys
-#import cPickle as pickle
 
 '''
 Format of INPUT contribution lines:
