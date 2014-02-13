@@ -50,9 +50,7 @@ for line in sys.stdin:
 # find nodes of unknown rank (they contributed all their rank to child nodes but
 # have no parent nodes to get rank from)
 # TODO this loop is fucking expensive you know
-for node in allNodes:
-    if node not in seenNodes:
-
-        # emit a line giving this node (1-ALPHA) rank
-        out = '+' + node + '\t' + str(iteration) + ',' + str(1 - ALPHA)
-        print out
+for node in allNodes.difference(seenNodes):
+    # emit a line giving this node (1-ALPHA) rank
+    out = '+' + node + '\t' + str(iteration) + ',' + str(1 - ALPHA)
+    print out
