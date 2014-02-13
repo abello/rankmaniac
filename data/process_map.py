@@ -45,6 +45,7 @@ for orig_line in sys.stdin:
 # and initialize its pagerank to zero
 for n in nodes:
     if n not in seenNodes:
-        out = str(n) + '\t+' + str(iteration) + ',' + str(n) + ',' + str(1 - ALPHA)
+        rank = 1.0 - ALPHA
+        out = str(n) + '\t+' + str(iteration) + ',' + str(n) + ',' + str(1.0 - ALPHA)
         print out # (newline needed)
 
