@@ -33,7 +33,7 @@ for line in sys.stdin:
         sys.stdout.write(line)
 
     # case for adjacency line
-    elif line[0] == '_':
+    else:
 
         # get node and save in set of all nodes
         key, value = line.split()
@@ -45,14 +45,6 @@ for line in sys.stdin:
 
         # pass the original line along to output
         sys.stdout.write(line)
-
-    # case for unknown line
-    else:
-
-        # make a note in the error log and continue
-        sys.stderr.write("elsecase process_map\n")
-        sys.stderr.write('\t' + line + '\n')
-        pass
 
 
 # find nodes of unknown rank (they contributed all their rank to child nodes but

@@ -72,7 +72,7 @@ def main():
                     threshold_pr, _ = h.nsmallest(1, result_heap)[0]
 
         # case for adjacency line
-        elif line[0] == '_':
+        else:
 
             # break up input into key and value
             key, value = line.split()
@@ -89,14 +89,6 @@ def main():
 
             # record node in adjacency dictionary
             adjacency[node] = (iteration+1, rank_curr, rank_prev, outLinks)            
-
-        # case for unknown line
-        else:
-
-            # make a note in the error log and continue
-#sys.stderr.write("elsecase process_reduce\n")
-#sys.stderr.write('\t' + line + '\n')
-            pass
 
 
     #----------------------------------------------------------#

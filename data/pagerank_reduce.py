@@ -38,18 +38,10 @@ for line in sys.stdin:
             result[n] += float(contrib)
 
     # case for adjacency line
-    elif line[0] == '_':
+    else:
 
         # pass the line right along to output
         sys.stdout.write(line)
-
-    # case for unknown line
-    else:
-
-        # make a note in the error log and continue
-        sys.stderr.write("elsecase pagerank_reduce\n")
-        sys.stderr.write('\t' + line + '\n')
-        pass
 
 
 # loop over every node that was given pagerank
