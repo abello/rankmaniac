@@ -79,7 +79,10 @@ def main():
             node = key[1:]
             rank_curr = float(values[1])
             rank_prev = float(values[2])
-            outLinks  = values[3:]
+            if values[3:] == ['']:
+                outLinks == []
+            else:
+                outLinks  = values[3:]
 
             # record node in adjacency dictionary
             adjacency[node] = (iteration+1, rank_curr, rank_prev, outLinks)            
