@@ -23,7 +23,7 @@ for line in sys.stdin:
 
         # get node and save in set of nodes with known rank
         key, value = line.split()
-        node = key[:1]
+        node = key[1:]
         seenNodes.add(node)
 
         # set iteration value
@@ -37,7 +37,7 @@ for line in sys.stdin:
 
         # get node and save in set of all nodes
         key, value = line.split()
-        node = key[:1]
+        node = key[1:]
         allNodes.add(node)
 
         # set iteration value
