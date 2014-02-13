@@ -96,7 +96,7 @@ def main():
         # retrieved from our pageRanks dict, and the old rank_curr replaces the
         # old rank_prev.
         for node in adjacency:
-
+            rank_curr = pageRanks[node]
             iteration, rank_prev, _, outLinks = adjacency[node]
 
             outLinks[:] = [x for x in outLinks if x != '']
