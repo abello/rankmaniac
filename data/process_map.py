@@ -16,49 +16,46 @@ Format of OUTPUT rank lines:
 
 ALPHA = 0.85
 
-seenNodes = set() # nodes we already have shits of
-nodes     = set() # all nodes (even those without parents)
+seenNodes = set() # nodes with known and scaled ranks
+allNode   = set() # all nodes (includes nodes without parents but with children)
 
-# read a line of input
-for orig_line in sys.stdin:
-    line = orig_line.split()[1]
 
-    # if line starts with '_' it's adj info; pass it along but also save its 
-    # node so that at the end we'll have a full list of nodes - INCLUDING nodes
-    # that do not have any parents!
-    if line[0] == '_':
-        sys.stdout.write(orig_line) # (doesn't need newline)
+for line in sys.stdin:
 
-        # decode (unescape) and un-pickle the line
-        line = line.decode('string-escape')
-        unpickled = pickle.loads(line[1:])
+    # case for contribution line
+    if line[0] == '+':
 
-        # record the node in our set
-        nodes.add(unpickled[1])
-
-    # else line starts with '+' and it's contrib info; grab it
-    elif line[0] == '+':
-        sys.stdout.write(orig_line)
-
-        # decode (unescape) and un-pickle the line
-        line = line.decode('string-escape')
-        info = pickle.loads(line[1:])
-
-        # save each value the line holds
-        iteration = info[0]
-        node      = info[1]
-        contrib   = info[2]
-
+        # get node and save in set of nodes with known rank
+        node = line.split()[0][1:]
         seenNodes.add(node)
+
+        # pass the original line along to output
+        sys.stdout.write(line)
+
+    # case for adjacency line
+    elif line[0] == '_':
+
+        # get node and save in set of all nodes
+        node = line.split()[0][1:]
+        node.add(node)
+
+        # pass the original line along to output
+        sys.stdout.write(line)
+
+    # case for unknown line
     else:
-        #victor
+
+        # make a note in the error log and continue
+        sys.stderr.write("elsecase process_map\n")
         pass
 
-# find every node in the graph without parents
-# and initialize its pagerank to zero
-for n in nodes:
-    if n not in seenNodes:
-        out = '+' + pickle.dumps([iteration, n, 1 - ALPHA])
-        out = out.encode('string-escape')
-        print out # (newline needed)
 
+# find nodes of unknown rank (they contributed all their rank to child nodes but
+# have no parent nodes to get rank from)
+# TODO this loop is fucking expensive you know
+for node in nodes:
+    if node not in seenNodes:
+
+        # emit a line giving this node (1-ALPHA) rank
+        out = '+' + node + '\t' + str(iteration) + ',' + str(1 - ALPHA)
+        print out

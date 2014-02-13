@@ -60,6 +60,6 @@ for line in sys.stdin:
 for node in result.keys():
 
     # calculate and emit the ALPHA scaled rank
-    rank = ALPHA * result[node] + (1 - ALPHA)
+    rank = (ALPHA*result[node]) + (1-ALPHA)
     out = node + '\t' + str(iteration) + ',' + rank
     print out
