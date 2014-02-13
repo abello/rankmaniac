@@ -2,14 +2,20 @@
 
 import sys
 import heapq as h
-import numpy as np
-import cPickle as pickle
 
 # 12 gives correct results for local graph
 # TODO: Dynamically figure this out
-MAX_ITER = 14 # maximum number of iterations of pagerank mapreduce to run
+MAX_ITER = 15 # maximum number of iterations of pagerank mapreduce to run
+ALPHA = 0.85
 
 def main():
+    '''
+    Format of INPUT and OUTPUT rank lines:
+        +node \t iteration,rank
+
+    Format of INPUT and OUTPUT adjacency lines:
+        _node \t iteration,rank_curr,rank_prev,c,h,i,l,d,r,e,n
+    '''
 
     adjacency    = {}   # dict records node information and graph structure
     pageRanks    = {}   # dict records node pagerank
@@ -22,51 +28,37 @@ def main():
     for i in range(20):
         h.heappush(result_heap, (-1, -1))
 
-    # get a line of input
+
+    #----------------------------#
+    #  Reduce all passed input:  #
+    #----------------------------#
+
     for line in sys.stdin:
-        index = line.find('\t')
-        line = line[index+1:]
 
+        # case for contribution line
+        if line[0] == '+':
 
-        # if line starts with '_' it's adj info; grab it and store the data in
-        # our adjacency dictionary.
-        if line[0] == '_':
-            
-            # decode (unescape) and un-pickle the line
-            line = line.decode('string-escape')
-            info = pickle.loads(line[1:])
+            # break up input into key and value
+            key, value = line.split()
+            values     = value.split(',')
 
-            # begin saving each value the line holds
-            iteration = info[0]
-            # (if iteration is MAX_ITER, just stop, no need to process the rest)
-            if iteration == MAX_ITER:
-                continue
-            node      = info[1]
-            rank_curr = info[2]
-            outLinks  = info[4]
-            
-            # record node info in adjacency dictionary
-            adjacency[node] = (iteration + 1, node, rank_curr, outLinks)
+            # save information of this node
+            node      = key[1:]
+#            try:
+#                if int(node) == 48:
+#                    sys.stderr.write('found 48\n')
+#            except:
+#                sys.stderr.write('rekt ' + node)
+            iteration = int(values[0])
+            pr        = float(values[1])
 
-        # else line starts with '+' & it's contrib info; grab it for processing
-        elif line[0] == '+':
-            
-            # decode (unescape) and un-pickle the line
-            line = line.decode('string-escape')
-            info = pickle.loads(line[1:])
-
-            # begin saving each value the line holds ("pr" means page rank)
-            iteration = info[0]
-            node      = info[1]
-            pr        = info[2]
-
-            # if this isn't the last iteration:
+            # if this isn't the last iteration
             if iteration != MAX_ITER:
 
                 # save the pagerank to be output for the next iteration
                 pageRanks[node] = pr
 
-            # else this is the last iteration:
+            # else this is the last iteration
             else:
 
                 # if pagerank is larger than the smallest-pr-in-heap
@@ -74,44 +66,88 @@ def main():
 
                     # remove smallest-pr-from-the heap and push the new pr into
                     # it (note that size of heap is maintained)
-                    h.heappushpop(result_heap, (pr, node))
+                    h.heapreplace(result_heap, (pr, node))
 
                     # update the threshold value to the new smallest-pr-in-heap
                     threshold_pr, _ = h.nsmallest(1, result_heap)[0]
+
+        # case for adjacency line
+        elif line[0] == '_':
+
+            # break up input into key and value
+            key, value = line.split()
+            values     = value.split(',')
+
+            # save information of this node
+            iteration = int(values[0])
+            # if the last iteration, just stop, no need to process the rest
+            if iteration == MAX_ITER: continue
+            node = key[1:]
+            rank_curr = float(values[1])
+            rank_prev = float(values[2])
+            outLinks  = values[3:]
+
+            # record node in adjacency dictionary
+            adjacency[node] = (iteration+1, rank_curr, rank_prev, outLinks)            
+
+        # case for unknown line
         else:
-            #victor
-            print "elsecase: " + line
+
+            # make a note in the error log and continue
+#sys.stderr.write("elsecase process_reduce\n")
+#sys.stderr.write('\t' + line + '\n')
+            pass
+
+
+    #----------------------------------------------------------#
+    #  Now either loop for another iteration or print output:  #
+    #----------------------------------------------------------#
 
     # if not every iteration has run yet
     if iteration != MAX_ITER:
 
-        # for every node in the graph, pickle, encode and print its adj info.
-        # NOTE: we do not prepend '_' here; this output is for the consumption
-        # of pagerank_map.midIteration() only.
-        for n in adjacency.keys():
-            a = adjacency[n]
-            out = pickle.dumps((a[0], a[1], pageRanks[n], a[2], a[3]))
-            out = out.encode('string-escape')
-            out = str(a[1]) + '\t' + out
-            print out # (newline required)
+        # For every node in the graph, emit its adj info.  The new rank_curr is
+        # retrieved from our pageRanks dict, and the old rank_curr replaces the
+        # old rank_prev.
+        for node in adjacency.keys():
 
-    # else if the last iteration has finished running
+            try:
+                rank_curr = pageRanks[node]
+            except:
+                pageRanks[node] = 1.0 - ALPHA
+                rank_curr = 1.0 - ALPHA
+#sys.stderr.write('lolz\n')
+            iteration, rank_prev, _, outLinks = adjacency[node]
+
+            outLinks[:] = [x for x in outLinks if x != '']
+
+            if len(outLinks) == 0:
+                out = ('_' + node + '\t' + str(iteration) + ',' + str(rank_curr) +
+                      ',' + str(rank_prev))
+            else:
+                out = ('_' + node + '\t' + str(iteration) + ',' + str(rank_curr) +
+                      ',' + str(rank_prev) + ',' + ','.join(outLinks))
+
+            print out
+
+    # else the last iteration has completed
     else:
 
         top_prs = h.nlargest(20, result_heap)   # get list from heap
         top_prs = sorted(top_prs, reverse=True) # sort list from large to small
 
-        # create a string containing lines for all top 20 nodes and their ranks.
+        # create one string with lines for each of the top 20 nodes and their
+        # ranks, delimiting them with newline characters.
         finalRanks = ''
         for i in range(20):
-            try:
-                pr, n = top_prs[i]
-                finalRanks += ('FinalRank:' + str(pr) + '\t' + str(n)+ '\n')
-            except Exception, e:
-                print e
+            pr, node = top_prs[i]
+            #sys.stderr.write('pagerank: ' + str(pr) + '\n')
+            #sys.stderr.write('node id:  ' + str(node) + '\n')
+            finalRanks += ('FinalRank:' + str(pr) + '\t' + str(node) + '\n')
 
         # send the final result to the output
         sys.stdout.write(finalRanks)
+
 
 
 if __name__ == "__main__":

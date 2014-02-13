@@ -11,6 +11,7 @@ at the California Institute of Technology.
 Authored by: Max Hirschhorn (maxh@caltech.edu)
 """
 
+#minor comment
 from __future__ import with_statement # for Python 2.5
 
 import sys, os
