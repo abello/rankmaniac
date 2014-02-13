@@ -30,7 +30,7 @@ def firstIteration(firstLine):
     rank_prev = float(values[1])
     if values[2:] == ['']:
         outLinks = []
-        assert(false)
+        assert(False)
     else:
         outLinks  = values[2:]
 
@@ -74,7 +74,7 @@ def firstIteration(firstLine):
         rank_prev = float(values[1])
         if values[2] == '':
             outLinks = []
-            assert(false)
+            assert(False)
         else:
             outLinks  = values[2:]
 
@@ -129,7 +129,7 @@ def midIteration(firstLine):
     rank_prev  = float(values[2])
     if values[3:] == ['']:
         outLinks = []
-        assert(false)
+        assert(False)
     else:
         outLinks  = values[3:]
 
@@ -172,7 +172,7 @@ def midIteration(firstLine):
         rank_prev  = float(values[2])
         if values[3:] == ['']:
             outLinks = []
-            assert(false)
+            assert(False)
         else:
             outLinks  = values[3:]
 
