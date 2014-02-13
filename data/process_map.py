@@ -19,24 +19,22 @@ for orig_line in sys.stdin:
         sys.stdout.write(orig_line) # (doesn't need newline)
 
         # decode (unescape) and un-pickle the line
-        line = line.decode('string-escape')
-        unpickled = pickle.loads(line[1:])
+        info = line[1:].split(',')
 
         # record the node in our set
-        nodes.add(unpickled[1])
+        nodes.add(int(info[1]))
 
     # else line starts with '+' and it's contrib info; grab it
     elif line[0] == '+':
         sys.stdout.write(orig_line)
 
         # decode (unescape) and un-pickle the line
-        line = line.decode('string-escape')
-        info = pickle.loads(line[1:])
+        info = line[1:].split(',')
 
         # save each value the line holds
-        iteration = info[0]
-        node      = info[1]
-        contrib   = info[2]
+        iteration = int(info[0])
+        node      = int(info[1])
+        contrib   = float(info[2])
 
         seenNodes.add(node)
     else:
@@ -47,7 +45,6 @@ for orig_line in sys.stdin:
 # and initialize its pagerank to zero
 for n in nodes:
     if n not in seenNodes:
-        out = '+' + pickle.dumps([iteration, n, 1 - ALPHA])
-        out = out.encode('string-escape')
+        out = str(n) + '\t+' + str(iteration) + ',' + str(n) + ',' + str(1 - ALPHA)
         print out # (newline needed)
 

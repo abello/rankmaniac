@@ -147,8 +147,8 @@ def midIteration(firstLine):
     # save each value the line holds
     iteration = int(attributes[0])
     node      = int(attributes[1])
-    rank_curr = int(attributes[2])
-    rank_prev = int(attributes[3])
+    rank_curr = float(attributes[2])
+    rank_prev = float(attributes[3])
     outLinks  = np.array([int(x) for x in attributes[4:]])
 
     # if current node has one or more children, split its pagerank equally
@@ -157,7 +157,7 @@ def midIteration(firstLine):
         contrib = (float(rank_curr)/len(outLinks))
         for link in outLinks:
             # (node, rank) pair lines start with a '+'
-            result = str(child) + '\t' + '+' + str(iteration) + ',' + str(child) + ',' + str(contrib)
+            result = str(link) + '\t' + '+' + str(iteration) + ',' + str(link) + ',' + str(contrib)
             print result # (needs newline)
 
     # else if current node has no children, keep its pagerank in a block and
@@ -188,8 +188,8 @@ def midIteration(firstLine):
         # save each value the line holds
         iteration = int(attributes[0])
         node      = int(attributes[1])
-        rank_curr = int(attributes[2])
-        rank_prev = int(attributes[3])
+        rank_curr = float(attributes[2])
+        rank_prev = float(attributes[3])
         outLinks  = np.array([int(x) for x in attributes[4:]])
 
         # if current node has one or more children, split its pagerank equally
@@ -198,7 +198,7 @@ def midIteration(firstLine):
             contrib = (float(rank_curr)/len(outLinks))
             for link in outLinks:
                 # (node, rank) pair lines start with a '+'
-                result = str(child) + '\t' + '+' + str(iteration) + ',' + str(child) + ',' + str(contrib)
+                result = str(link) + '\t' + '+' + str(iteration) + ',' + str(link) + ',' + str(contrib)
                 print result # (needs newline)
 
         # else if current node has no children, keep its pagerank in a block and

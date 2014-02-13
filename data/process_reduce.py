@@ -7,7 +7,7 @@ import cPickle as pickle
 
 # 12 gives correct results for local graph
 # TODO: Dynamically figure this out
-MAX_ITER = 14 # maximum number of iterations of pagerank mapreduce to run
+MAX_ITER = 2 # maximum number of iterations of pagerank mapreduce to run
 
 def main():
 
@@ -23,9 +23,8 @@ def main():
         h.heappush(result_heap, (-1, -1))
 
     # get a line of input
-    for line in sys.stdin:
-        index = line.find('\t')
-        line = line[index+1:]
+    for orig_line in sys.stdin:
+        line = orig_line.split()[1]
 
 
         # if line starts with '_' it's adj info; grab it and store the data in
@@ -33,17 +32,16 @@ def main():
         if line[0] == '_':
             
             # decode (unescape) and un-pickle the line
-            line = line.decode('string-escape')
-            info = pickle.loads(line[1:])
+            info = line[1:].split(',')
 
             # begin saving each value the line holds
-            iteration = info[0]
+            iteration = int(info[0])
             # (if iteration is MAX_ITER, just stop, no need to process the rest)
             if iteration == MAX_ITER:
                 continue
-            node      = info[1]
-            rank_curr = info[2]
-            outLinks  = info[4]
+            node      = int(info[1])
+            rank_curr = float(info[2])
+            outLinks  = np.array([int(x) for x in info[4:]])
             
             # record node info in adjacency dictionary
             adjacency[node] = (iteration + 1, node, rank_curr, outLinks)
@@ -52,13 +50,12 @@ def main():
         elif line[0] == '+':
             
             # decode (unescape) and un-pickle the line
-            line = line.decode('string-escape')
-            info = pickle.loads(line[1:])
+            info = line[1:].split(',')
 
             # begin saving each value the line holds ("pr" means page rank)
-            iteration = info[0]
-            node      = info[1]
-            pr        = info[2]
+            iteration = int(info[0])
+            node      = int(info[1])
+            pr        = float(info[2])
 
             # if this isn't the last iteration:
             if iteration != MAX_ITER:
@@ -80,7 +77,7 @@ def main():
                     threshold_pr, _ = h.nsmallest(1, result_heap)[0]
         else:
             #victor
-            print "elsecase: " + line
+            print "elsecase processreduce: " + line
 
     # if not every iteration has run yet
     if iteration != MAX_ITER:
@@ -90,9 +87,10 @@ def main():
         # of pagerank_map.midIteration() only.
         for n in adjacency.keys():
             a = adjacency[n]
-            out = pickle.dumps((a[0], a[1], pageRanks[n], a[2], a[3]))
-            out = out.encode('string-escape')
-            out = str(a[1]) + '\t' + out
+            outLinks = a[3]
+            out = str(a[1]) + '\t' + str(a[0]) + ',' + str(a[1]) + ',' + str(pageRanks[n]) + ',' + str(a[2])
+            for link in outLinks:
+                out += ',' + str(link)
             print out # (newline required)
 
     # else if the last iteration has finished running
