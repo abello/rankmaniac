@@ -59,17 +59,16 @@ def main():
                 pageRanks[node] = pr
 
             # else this is the last iteration
-            else:
-
                 # if pagerank is larger than the smallest-pr-in-heap
-                if pr > threshold_pr:
+            elif pr > threshold_pr:
 
-                    # remove smallest-pr-from-the heap and push the new pr into
-                    # it (note that size of heap is maintained)
-                    h.heapreplace(result_heap, (pr, node))
 
-                    # update the threshold value to the new smallest-pr-in-heap
-                    threshold_pr, _ = h.nsmallest(1, result_heap)[0]
+                # remove smallest-pr-from-the heap and push the new pr into
+                # it (note that size of heap is maintained)
+                h.heapreplace(result_heap, (pr, node))
+
+                # update the threshold value to the new smallest-pr-in-heap
+                threshold_pr, _ = h.nsmallest(1, result_heap)[0]
 
         # case for adjacency line
         else:
