@@ -2,6 +2,7 @@
 
 import sys
 import heapq as h
+import re
 
 # 12 gives correct results for local graph
 # TODO: Dynamically figure this out
@@ -39,8 +40,11 @@ def main():
         if line[0] == '+':
 
             # break up input into key and value
-            key, value = line.split()
-            values     = value.split(',')
+#             key, value = line.split()
+#             values     = value.split(',')
+            spl = re.split(r"[\t,]", line.rstrip("\n"))
+            key = spl[0]
+            values = spl[1:]
 
             # save information of this node
             node      = key[1:]
@@ -69,8 +73,11 @@ def main():
         else:
 
             # break up input into key and value
-            key, value = line.split()
-            values     = value.split(',')
+#             key, value = line.split()
+#             values     = value.split(',')
+            spl = re.split(r"[\t,]", line.rstrip("\n"))
+            key = spl[0]
+            values = spl[1:]
 
             # save information of this node
             iteration = int(values[0])

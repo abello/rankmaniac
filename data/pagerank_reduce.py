@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import re
 
 #'''
 #Format of INPUT contribution lines:
@@ -24,8 +25,13 @@ for line in sys.stdin:
     if line[0] == '+':
 
         # break up input into key and value
-        key, value = line.split()
-        values = value.split(',')
+#         key, value = line.split()
+#         values = value.split(',')
+#         sys.stderr.write(str(key) + "-" +str(values) + "\n")
+        spl = re.split(r"[\t,]", line.rstrip("\n"))
+        key = spl[0]
+        values = spl[1:]
+#         sys.stderr.write(str(key) + "-" +str(values) + "\n")
 
         # save information of this node
         n = key[1:]
