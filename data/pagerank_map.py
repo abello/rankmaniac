@@ -28,7 +28,7 @@ def firstIteration(firstLine):
     iteration = 0
     rank_curr = float(values[0])
     rank_prev = float(values[1])
-    outLinks  = attributes[2:]
+    outLinks  = values[2:]
 
     # if current node has one or more children, split its pagerank equally
     # and distribute to each of them:
@@ -67,7 +67,7 @@ def firstIteration(firstLine):
         iteration = 0
         rank_curr = float(values[0])
         rank_prev = float(values[1])
-        outLinks  = attributes[2:]
+        outLinks  = values[2:]
 
         # if current node has one or more children, split its pagerank equally
         # and distribute to each of them:
@@ -189,4 +189,11 @@ stdin = sys.stdin
 sample = stdin.readline()
 
 # Choose iteration type
-firstIteration(sample) if sample[0]=='N' else midIteration(sample)
+#firstIteration(sample) if sample[0]=='N' else midIteration(sample)
+
+sys.stderr.write('sample length: ' + str(len(sample)) + '\n')
+print ''
+if sample[0] == 'N':
+    firstIteration(sample)
+else:
+    midIteration(sample)
