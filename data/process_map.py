@@ -13,7 +13,7 @@ Format of INPUT and OUTPUT adjacency lines:
 ALPHA = 0.85
 
 seenNodes = set() # nodes with known and scaled ranks
-allNode   = set() # all nodes (includes nodes without parents but with children)
+allNodes   = set() # all nodes (includes nodes without parents but with children)
 
 
 for line in sys.stdin:
@@ -33,7 +33,7 @@ for line in sys.stdin:
 
         # get node and save in set of all nodes
         node = line.split()[0][1:]
-        node.add(node)
+        allNodes.add(node)
 
         # pass the original line along to output
         sys.stdout.write(line)
@@ -49,7 +49,7 @@ for line in sys.stdin:
 # find nodes of unknown rank (they contributed all their rank to child nodes but
 # have no parent nodes to get rank from)
 # TODO this loop is fucking expensive you know
-for node in nodes:
+for node in allNodes:
     if node not in seenNodes:
 
         # emit a line giving this node (1-ALPHA) rank
