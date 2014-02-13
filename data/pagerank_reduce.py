@@ -1,45 +1,67 @@
 #!/usr/bin/env python
 
 import sys
-import numpy as np
-import cPickle as pickle
 
-result = {} # dictionary will hold pairs of {node: sum_pagerank_of_node}
+#'''
+#Format of INPUT contribution lines:
+#    +node \t iteration,contrib
+#
+#Format of INPUT and OUTPUT adjacency lines:
+#    _node \t iteration,rank_curr,rank_prev,c,h,i,l,d,r,e,n
+#
+#Format of OUTPUT rank lines:
+#    +node \t iteration,rank
+#'''
+
 ALPHA = 0.85
 
-# read a line of input
+# dictionary will hold {node: sum_pagerank_of_node}
+result = {} 
+
 for line in sys.stdin:
-    index = line.find('\t')
-    line = line[index+1:]
- 
-    # if line starts with '_' it's adj info; pass it along as is
-    if line[0] == '_':
-        sys.stdout.write("adj\t" + line) # (doesn't need newline)
 
-    # else line starts with '+' and it's contrib info; grab it
-    elif line[0] == '+':
-        # decode (unescape) and un-pickle the line
-        line = line.decode('string-escape')
-        info = pickle.loads(line[1:])
+    # case for contribution line
+    if line[0] == '+':
 
-        # save each value the line holds
-        iteration = info[0]
-        node      = info[1]
-        contrib   = info[2]
+        # break up input into key and value
+        key, value = line.split()
+        values = value.split(',')
 
-        if node in result.keys():
-            # increment node's pagerank in {result} with another contribution
-            result[node] += contrib
+        # save information of this node
+        n = key[1:]
+        iteration, contrib = values
+
+        # ititialize or increment this node's rank in results dictionary
+        if n not in result.keys():
+            result[n] = float(contrib)
         else:
-            # initialize node's pagerank entry in {result}
-            result[node] = contrib
+            result[n] += float(contrib)
+
+    # case for adjacency line
+    elif line[0] == '_':
+
+        # pass the line right along to output
+        sys.stdout.write(line)
+
+    # case for unknown line
     else:
-        #victor
+
+        # make a note in the error log and continue
+        sys.stderr.write("elsecase pagerank_reduce\n")
+        sys.stderr.write('\t' + line + '\n')
         pass
 
-# loop over every node with pagerank and emit it
+
+# loop over every node that was given pagerank
+# INCLUDES
+#   nodes with parents
+#   nodes without children
+# DOESN'T INCLUDE
+#   nodes without parents but with children
+
 for node in result.keys():
-    # (node, rank) pair lines start with a '+'
-    out = '+' + pickle.dumps((iteration, node, ALPHA * result[node]  + (1 - ALPHA)))
-    out = str(node) + "\t" + out.encode('string-escape')
-    print out # (needs newline)
+
+    # calculate and emit the ALPHA scaled rank
+    rank = (ALPHA*result[node]) + (1-ALPHA)
+    out = '+' + node + '\t' + str(iteration) + ',' + str(rank)
+    print out
