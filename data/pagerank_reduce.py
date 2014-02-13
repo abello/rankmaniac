@@ -32,7 +32,10 @@ for line in sys.stdin:
         iteration, contrib = values
 
         # ititialize or increment this node's rank in results dictionary
-        result[n] = float(contrib) if n not in result.keys() else result[n] + float(contrib)
+        if n not in result.keys():
+            result[n] = float(contrib)
+        else:
+            result[n] += float(contrib)
 
     # case for adjacency line
     elif line[0] == '_':
