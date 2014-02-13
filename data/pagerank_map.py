@@ -189,11 +189,4 @@ stdin = sys.stdin
 sample = stdin.readline()
 
 # Choose iteration type
-#firstIteration(sample) if sample[0]=='N' else midIteration(sample)
-
-sys.stderr.write('sample length: ' + str(len(sample)) + '\n')
-print ''
-if sample[0] == 'N':
-    firstIteration(sample)
-else:
-    midIteration(sample)
+firstIteration(sample) if sample[0]=='N' else midIteration(sample)

@@ -2,16 +2,16 @@
 
 import sys
 
-'''
-Format of INPUT contribution lines:
-    +node \t iteration,contrib
-
-Format of INPUT and OUTPUT adjacency lines:
-    _node \t iteration,rank_curr,rank_prev,c,h,i,l,d,r,e,n
-
-Format of OUTPUT rank lines:
-    +node \t iteration,rank
-'''
+#'''
+#Format of INPUT contribution lines:
+#    +node \t iteration,contrib
+#
+#Format of INPUT and OUTPUT adjacency lines:
+#    _node \t iteration,rank_curr,rank_prev,c,h,i,l,d,r,e,n
+#
+#Format of OUTPUT rank lines:
+#    +node \t iteration,rank
+#'''
 
 ALPHA = 0.85
 
@@ -32,7 +32,7 @@ for line in sys.stdin:
         iteration, contrib = values
 
         # ititialize or increment this node's rank in results dictionary
-        result[n] = contrib if n not in result.keys() else result[n] + contrib
+        result[n] = float(contrib) if n not in result.keys() else result[n] + float(contrib)
 
     # case for adjacency line
     elif line[0] == '_':
@@ -45,6 +45,7 @@ for line in sys.stdin:
 
         # make a note in the error log and continue
         sys.stderr.write("elsecase pagerank_reduce\n")
+        sys.stderr.write('\t' + line + '\n')
         pass
 
 
@@ -59,5 +60,5 @@ for node in result.keys():
 
     # calculate and emit the ALPHA scaled rank
     rank = (ALPHA*result[node]) + (1-ALPHA)
-    out = node + '\t' + str(iteration) + ',' + rank
+    out = '+' + node + '\t' + str(iteration) + ',' + str(rank)
     print out

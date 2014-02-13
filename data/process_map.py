@@ -2,19 +2,19 @@
 
 import sys
 
-'''
-Format of INPUT and OUTPUT rank lines:
-    +node \t iteration,rank
-
-Format of INPUT and OUTPUT adjacency lines:
-    _node \t iteration,rank_curr,rank_prev,c,h,i,l,d,r,e,n
-'''
+#'''
+#Format of INPUT and OUTPUT rank lines:
+#    +node \t iteration,rank
+#
+#Format of INPUT and OUTPUT adjacency lines:
+#    _node \t iteration,rank_curr,rank_prev,c,h,i,l,d,r,e,n
+#'''
 
 ALPHA = 0.85
 
 seenNodes = set() # nodes with known and scaled ranks
-allNodes   = set() # all nodes (includes nodes without parents but with children)
-
+allNodes  = set() # all nodes (includes nodes without parents but with children)
+iteration = -1
 
 for line in sys.stdin:
 
@@ -22,8 +22,12 @@ for line in sys.stdin:
     if line[0] == '+':
 
         # get node and save in set of nodes with known rank
-        node = line.split()[0][1:]
+        key, value = line.split()
+        node = key[:1]
         seenNodes.add(node)
+
+        # set iteration value
+        iteration = value[0]
 
         # pass the original line along to output
         sys.stdout.write(line)
@@ -32,8 +36,12 @@ for line in sys.stdin:
     elif line[0] == '_':
 
         # get node and save in set of all nodes
-        node = line.split()[0][1:]
+        key, value = line.split()
+        node = key[:1]
         allNodes.add(node)
+
+        # set iteration value
+        iteration = value[0]
 
         # pass the original line along to output
         sys.stdout.write(line)
@@ -43,6 +51,7 @@ for line in sys.stdin:
 
         # make a note in the error log and continue
         sys.stderr.write("elsecase process_map\n")
+        sys.stderr.write('\t' + line + '\n')
         pass
 
 
