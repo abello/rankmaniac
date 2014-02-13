@@ -63,5 +63,5 @@ for node in result.keys():
 
     # calculate and emit the ALPHA scaled rank
     rank = (ALPHA*result[node]) + (1-ALPHA)
-    out = '+' + node + '\t' + `iteration` + ',' + `rank`
+    out = '+' + node + '\t' + str(iteration) + ',' + str(rank)
     print out

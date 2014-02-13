@@ -62,5 +62,5 @@ for node in allNodes:
     if node not in seenNodes:
 
         # emit a line giving this node (1-ALPHA) rank
-        out = '+' + node + '\t' + `iteration` + ',' + `1 - ALPHA`
+        out = '+' + node + '\t' + str(iteration) + ',' + str(1 - ALPHA)
         print out
