@@ -28,11 +28,7 @@ def firstIteration(firstLine):
     iteration = 0
     rank_curr = float(values[0])
     rank_prev = float(values[1])
-    if values[2:] == ['']:
-        outLinks == []
-        assert(False)
-    else:
-        outLinks  = values[2:]
+    outLinks = values[2:]
 
     # if current node has one or more children, split its pagerank equally
     # and distribute to each of them:
@@ -72,11 +68,7 @@ def firstIteration(firstLine):
         iteration = 0
         rank_curr = float(values[0])
         rank_prev = float(values[1])
-        if values[2:] == ['']:
-            outLinks == []
-            assert(False)
-        else:
-            outLinks  = values[2:]
+        outLinks  = values[2:]
 
         # if current node has one or more children, split its pagerank equally
         # and distribute to each of them:
@@ -127,11 +119,7 @@ def midIteration(firstLine):
     iteration  = int(values[0])
     rank_curr  = float(values[1])
     rank_prev  = float(values[2])
-    if values[3:] == ['']:
-        outLinks == []
-        assert(False)
-    else:
-        outLinks  = values[3:]
+    outLinks  = values[3:]
 
     # if current node has one or more children, split its pagerank equally
     # and distribute to each of them:
@@ -170,11 +158,7 @@ def midIteration(firstLine):
         iteration  = int(values[0])
         rank_curr  = float(values[1])
         rank_prev  = float(values[2])
-        if values[3:] == ['']:
-            outLinks == []
-            assert(False)
-        else:
-            outLinks  = values[3:]
+        outLinks  = values[3:]
 
         # if current node has one or more children, split its pagerank equally
         # and distribute to each of them:
