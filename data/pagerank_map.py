@@ -2,7 +2,6 @@
 
 
 import sys
-import re
 
 def firstIteration(firstLine):
     '''
@@ -21,11 +20,8 @@ def firstIteration(firstLine):
     #----------------------#
 
     # break up input into key and value
-#     key, value = firstLine.split()
-#     values     = value.split(',')
-    spl = re.split(r"[\t,]", firstLine.rstrip("\n"))
-    key = spl[0]
-    values = spl[1:]
+    key, value = firstLine.split()
+    values     = value.split(',')
 
     # save information of this node
     node      = key[7:]
@@ -61,11 +57,8 @@ def firstIteration(firstLine):
     for line in sys.stdin:
         
         # break up input into key and value
-#         key, value = line.split()
-#         values     = value.split(',')
-        spl = re.split(r"[\t,]", line.rstrip("\n"))
-        key = spl[0]
-        values = spl[1:]
+        key, value = line.split()
+        values     = value.split(',')
 
         # save information of this node
         node      = key[7:]
@@ -112,11 +105,8 @@ def midIteration(firstLine):
     #----------------------#
 
     # break up input into key and value
-#     key, value = firstLine.split()
-#     values     = value.split(',')
-    spl = re.split(r"[\t,]", firstLine.rstrip("\n"))
-    key = spl[0]
-    values = spl[1:]
+    key, value = firstLine.split()
+    values     = value.split(',')
 
     # save information of this node
     node       = key[1:]
@@ -151,11 +141,8 @@ def midIteration(firstLine):
     for line in sys.stdin:
         
         # break up input into key and value
-#         key, value = line.split()
-#         values     = value.split(',')
-        spl = re.split(r"[\t,]", line.rstrip("\n"))
-        key = spl[0]
-        values = spl[1:]
+        key, value = line.split()
+        values     = value.split(',')
 
         # save information of this node
         node       = key[1:]
