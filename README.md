@@ -1,3 +1,3 @@
 rankmaniac
 ==========
-Team EatSleepRaveRepeat
+An iterative PageRank calculation using MapReduce.
